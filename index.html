@@ -7,7 +7,8 @@
 
 	<meta name="author" content="Takaaki Kawakami">
 
-<meta name="description" content=" "> <meta name="keywords" content="">
+<meta name="description" content="iOS Programming:The Big Nerd Ranch Guide, 4th Edition seems to have a good reputation on some book reviews.
+Upon reading, I&rsquo;m translating some &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -47,6 +48,111 @@
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2014/06/12/ios-programming-the-big-nerd-ranch-guide-in-swift/">
+			
+				iOS Programming: The Big Nerd Ranch Guide in Swift</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-12T18:42:33+09:00" pubdate data-updated="true">Jun 12<span>th</span>, 2014</time></div>
+	</header>
+	<div class="entry-content">
+		<p><em>iOS Programming:The Big Nerd Ranch Guide, 4th Edition</em> seems to have a good reputation on some book reviews.
+Upon reading, I&rsquo;m translating some example codes in Objective-C to Apple&rsquo;s new programming language Swift.</p>
+
+<p>First chapter: Quiz app</p>
+
+<p>AppDelegate.swift in Swift</p>
+
+<pre><code>class AppDelegate: UIResponder, UIApplicationDelegate {
+
+var window: UIWindow?
+
+
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -&gt; Bool {
+    self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    // Override point for customization after application launch.
+
+    var appBundle = NSBundle.mainBundle()
+    var controller: QuizViewController = QuizViewController(nibName: "QuizViewController", bundle: appBundle)
+    self.window!.rootViewController = controller
+
+    self.window!.backgroundColor = UIColor.whiteColor()
+    self.window!.makeKeyAndVisible()
+    return true
+}
+
+-- snip --
+</code></pre>
+
+<p>QuizViewController.swift</p>
+
+<pre><code>import UIKit
+
+class QuizViewController: UIViewController {
+
+    var currentQuestionIndex = 0
+    var questions = [0: "From what awamori is made?", 1: "What is 7+8?", 2: "What is the capital of Hyogo?",]
+    var answers = [0: "Sugar canes", 1: "15", 2: "Kobe",]
+
+    @IBOutlet var questionLabel: UILabel
+    @IBOutlet var answerLabel: UILabel
+
+-- snip --
+
+
+    @IBAction func showQuestion(AnyObject) {
+        // Step to the next question
+        currentQuestionIndex++
+
+        // Am I past the last question?
+        if (currentQuestionIndex == questions.count) {
+            // Go back to the first question
+            currentQuestionIndex = 0;
+        }
+
+        // Get the string at that index in the question array
+        var question = questions[currentQuestionIndex]
+
+        // Display the string in the question label
+        questionLabel.text = question
+
+        // Reset th answer label
+        answerLabel.text = "???"
+    }
+
+    @IBAction func showAnswer(AnyObject) {
+        // What is the answer to the current question?
+        var answer = answers[currentQuestionIndex]
+
+        // Display it in the answer label
+        answerLabel.text = answer;
+    }
+
+}
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
 
 
 </div>
