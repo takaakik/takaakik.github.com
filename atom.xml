@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-
-  <title><![CDATA[GIGO]]></title>
-  <link href="http://takaakik.github.io/atom.xml" rel="self"/>
-  <link href="http://takaakik.github.io/"/>
-  <updated>2014-06-12T13:17:18+09:00</updated>
-  <id>http://takaakik.github.io/</id>
-  <author>
-    <name><![CDATA[Takaaki Kawakami]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
-
-  
+	<title><![CDATA[GIGO]]></title>
+	<link href="http://takaakik.github.io/atom.xml" rel="self"/>
+	<link href="http://takaakik.github.io/"/>
+	<updated>2014-06-12T13:27:38+09:00</updated>
+	<id>http://takaakik.github.io/</id>
+	<author>
+		<name><![CDATA[Takaaki Kawakami]]></name>
+		
+	</author>
+	<generator uri="http://octopress.org/">Octopress</generator>
+	
 </feed>
