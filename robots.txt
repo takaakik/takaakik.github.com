@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://takaakik.github.io/sitemap.xml 
