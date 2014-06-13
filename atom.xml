@@ -4,7 +4,7 @@
   <title><![CDATA[GIGO]]></title>
   <link href="http://takaakik.github.io/atom.xml" rel="self"/>
   <link href="http://takaakik.github.io/"/>
-  <updated>2014-06-13T12:45:59+09:00</updated>
+  <updated>2014-06-13T12:54:44+09:00</updated>
   <id>http://takaakik.github.io/</id>
   <author>
     <name><![CDATA[Takaaki Kawakami]]></name>
@@ -18,7 +18,7 @@
     <updated>2014-06-12T18:42:33+09:00</updated>
     <id>http://takaakik.github.io/blog/2014/06/12/ios-programming-the-big-nerd-ranch-guide-in-swift</id>
     <content type="html"><![CDATA[<p><em>iOS Programming:The Big Nerd Ranch Guide, 4th Edition</em> seems to have a good reputation on some book reviews.
-Upon reading, I&rsquo;m translating some example codes in Objective-C to Apple&rsquo;s new programming language Swift.</p>
+I&rsquo;m translating some example codes in Objective-C to Apple&rsquo;s new programming language Swift.</p>
 
 <p>First chapter: Quiz app</p>
 
