@@ -1,0 +1,198 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>Chapter 2: Objective-C in Swift Part3  | GIGO</title>
+
+	<meta name="author" content="Takaaki Kawakami">
+
+<meta name="description" content="main is way much shorter in Swift then that of objective-C, and hopefully clearer. In Swift, if &ldquo;Target Membership&rdquo; is set to the same &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="GIGO" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">GIGO</a></h1>
+<span class="tagline">Garbage in, garbage out.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<header>
+		<h2 class="title">Chapter 2: Objective-C in Swift Part3</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-13T17:45:48+09:00" pubdate data-updated="true">Jun 13<span>th</span>, 2014</time></div>
+	</header>
+	<div class="entry-content"><p>main is way much shorter in Swift then that of objective-C, and hopefully clearer.</p>
+
+<p>In Swift, if &ldquo;Target Membership&rdquo; is set to the same project, importing is unnecessary.</p>
+
+<p>main.m</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
+</span><span class='line'><span class="cp">#import &quot;BNRItem.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="err">@</span><span class="n">autoreleasepool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">BNRItem</span> <span class="o">*</span><span class="n">item</span> <span class="o">=</span> <span class="p">[[</span><span class="n">BNRItem</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithItemName:</span><span class="s">@&quot;Red Sofa&quot;</span>
+</span><span class='line'>                                           <span class="nl">valueInDollars:</span><span class="mi">100</span>
+</span><span class='line'>                                             <span class="nl">serialNumber:</span><span class="s">@&quot;A1B2C&quot;</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">BNRItem</span> <span class="o">*</span><span class="n">itemWithName</span> <span class="o">=</span> <span class="p">[[</span><span class="n">BNRItem</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithItemName:</span><span class="s">@&quot;Blue Sofe&quot;</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">itemWithName</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">BNRItem</span> <span class="o">*</span><span class="n">itemWithNoName</span> <span class="o">=</span> <span class="p">[[</span><span class="n">BNRItem</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">itemWithNoName</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">items</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>main.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">Foundation</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">var</span> <span class="n">item</span> <span class="o">=</span> <span class="n">SwiftBNRItem</span><span class="p">(</span><span class="nl">name:</span> <span class="s">&quot;Blue Sofa&quot;</span><span class="p">,</span> <span class="nl">value:</span> <span class="mi">200</span><span class="p">,</span> <span class="nl">sNumber:</span> <span class="s">&quot;D3E4F&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;\(item.description)&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">var</span> <span class="n">itemWithName</span> <span class="o">=</span> <span class="n">SwiftBNRItem</span><span class="p">(</span><span class="nl">name:</span> <span class="s">&quot;Yellow Sofa&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;\(itemWithName.description)&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">var</span> <span class="n">itemWithNoName</span> <span class="o">=</span> <span class="n">SwiftBNRItem</span><span class="p">();</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;\(itemWithNoName.description)&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+	
+
+</article>
+
+	
+	<div class="share">
+		<ul>
+			<li>
+  <a href="https://twitter.com/intent/tweet?text=Chapter 2: Objective-C in Swift Part3 by @&url=http://takaakik.github.io/blog/2014/06/13/chapter-2-objective-c-in-swift-part3/" title="Share Chapter 2: Objective-C in Swift Part3 on Twitter">
+    <img src="/images/social/twitter.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://www.facebook.com/sharer.php?u=http://takaakik.github.io/blog/2014/06/13/chapter-2-objective-c-in-swift-part3/" title="Share Chapter 2: Objective-C in Swift Part3 on Facebook">
+    <img src="/images/social/facebook.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://plus.google.com/share?url=http://takaakik.github.io/blog/2014/06/13/chapter-2-objective-c-in-swift-part3/" title="Share Chapter 2: Objective-C in Swift Part3 on Google Plus">
+    <img src="/images/social/google.png" />
+  </a>
+</li>
+
+		</ul>
+	</div>
+
+
+
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    Takaaki Kawakami
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-51905939-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+
+</body>
+</html>
