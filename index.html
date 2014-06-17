@@ -220,6 +220,10 @@ Wrote some code for verification.</p>
 <p>destructor is called OK without any weakrefs.
 <code>*RECURSION*</code> suggests that PHP garbage seems to be able to handle a reference cycle?</p>
 
+<blockquote><p>Traditionally, reference counting memory mechanisms, such as that used previously by PHP, fail to address circular reference memory leaks. As of 5.3.0 PHP however implements the synchronous algorithm from the » Concurrent Cycle Collection in Reference Counted Systems paper which addresses that issue.</p></blockquote>
+
+<p><a href="http://www.php.net/manual/en/features.gc.collecting-cycles.php">Collecting Cycles </a></p>
+
 		
 		
 	</div>
@@ -250,7 +254,7 @@ Wrote some code for verification.</p>
 <time datetime="2014-06-17T13:28:03+09:00" pubdate data-updated="true">Jun 17<span>th</span>, 2014</time></div>
 	</header>
 	<div class="entry-content">
-		<h1>Strong and Weak References</h1>
+		<h3>Strong and Weak References</h3>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

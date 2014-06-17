@@ -4,7 +4,7 @@
   <title><![CDATA[GIGO]]></title>
   <link href="http://takaakik.github.io/atom.xml" rel="self"/>
   <link href="http://takaakik.github.io/"/>
-  <updated>2014-06-17T13:54:45+09:00</updated>
+  <updated>2014-06-17T16:36:27+09:00</updated>
   <id>http://takaakik.github.io/</id>
   <author>
     <name><![CDATA[Takaaki Kawakami]]></name>
@@ -136,6 +136,10 @@ Wrote some code for verification.</p>
 
 <p>destructor is called OK without any weakrefs.
 <code>*RECURSION*</code> suggests that PHP garbage seems to be able to handle a reference cycle?</p>
+
+<blockquote><p>Traditionally, reference counting memory mechanisms, such as that used previously by PHP, fail to address circular reference memory leaks. As of 5.3.0 PHP however implements the synchronous algorithm from the » Concurrent Cycle Collection in Reference Counted Systems paper which addresses that issue.</p></blockquote>
+
+<p><a href="http://www.php.net/manual/en/features.gc.collecting-cycles.php">Collecting Cycles </a></p>
 ]]></content>
   </entry>
   
@@ -144,7 +148,7 @@ Wrote some code for verification.</p>
     <link href="http://takaakik.github.io/blog/2014/06/17/chapter-3-objective-c-in-swift-part1/"/>
     <updated>2014-06-17T13:28:03+09:00</updated>
     <id>http://takaakik.github.io/blog/2014/06/17/chapter-3-objective-c-in-swift-part1</id>
-    <content type="html"><![CDATA[<h1>Strong and Weak References</h1>
+    <content type="html"><![CDATA[<h3>Strong and Weak References</h3>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
