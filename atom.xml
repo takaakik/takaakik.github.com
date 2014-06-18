@@ -4,13 +4,67 @@
   <title><![CDATA[GIGO]]></title>
   <link href="http://takaakik.github.io/atom.xml" rel="self"/>
   <link href="http://takaakik.github.io/"/>
-  <updated>2014-06-18T12:53:35+09:00</updated>
+  <updated>2014-06-18T16:45:38+09:00</updated>
   <id>http://takaakik.github.io/</id>
   <author>
     <name><![CDATA[Takaaki Kawakami]]></name>
     
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Chapter 4: Views and the View Hierarchy part3]]></title>
+    <link href="http://takaakik.github.io/blog/2014/06/18/chapter-4-views-and-the-view-hierarchy-part3/"/>
+    <updated>2014-06-18T16:41:44+09:00</updated>
+    <id>http://takaakik.github.io/blog/2014/06/18/chapter-4-views-and-the-view-hierarchy-part3</id>
+    <content type="html"><![CDATA[<h2>Bronze Challenge: Draw an Image</h2>
+
+<p>SwiftBNRHypnosisView.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRHypnosisView:</span> <span class="n">UIView</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">drawRect</span><span class="p">(</span><span class="nl">rect:</span> <span class="n">CGRect</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">path</span><span class="p">.</span><span class="n">stroke</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">logoImage</span> <span class="o">=</span> <span class="n">UIImage</span><span class="p">(</span><span class="nl">named:</span> <span class="s">&quot;logo.png&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">logoImage</span><span class="p">.</span><span class="n">drawInRect</span><span class="p">(</span><span class="n">CGRectMake</span><span class="p">(</span><span class="n">center</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="p">(</span><span class="n">center</span><span class="p">.</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+</span><span class='line'>                                        <span class="n">center</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">center</span><span class="p">.</span><span class="n">y</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+</span><span class='line'>                                        <span class="n">center</span><span class="p">.</span><span class="n">x</span><span class="p">,</span>
+</span><span class='line'>                                        <span class="n">center</span><span class="p">.</span><span class="n">y</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Chapter 4: Views and the View Hierarchy part2]]></title>
@@ -85,10 +139,10 @@
 </span><span class='line'>            <span class="n">path</span><span class="p">.</span><span class="n">moveToPoint</span><span class="p">(</span><span class="n">CGPointMake</span><span class="p">(</span><span class="n">center</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">currentRadius</span><span class="p">,</span> <span class="n">center</span><span class="p">.</span><span class="n">y</span><span class="p">))</span>
 </span><span class='line'>
 </span><span class='line'>            <span class="n">path</span><span class="p">.</span><span class="n">addArcWithCenter</span><span class="p">(</span><span class="n">center</span><span class="p">,</span>
-</span><span class='line'>            <span class="nl">radius:</span> <span class="n">currentRadius</span><span class="p">,</span>
-</span><span class='line'>            <span class="nl">startAngle:</span> <span class="mf">0.0</span><span class="p">,</span>
-</span><span class='line'>            <span class="nl">endAngle:</span> <span class="n">Float</span><span class="p">(</span><span class="n">M_PI</span><span class="p">)</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span>
-</span><span class='line'>            <span class="nl">clockwise:</span> <span class="n">true</span><span class="p">)</span>
+</span><span class='line'>                <span class="nl">radius:</span> <span class="n">currentRadius</span><span class="p">,</span>
+</span><span class='line'>                <span class="nl">startAngle:</span> <span class="mf">0.0</span><span class="p">,</span>
+</span><span class='line'>                <span class="nl">endAngle:</span> <span class="n">Float</span><span class="p">(</span><span class="n">M_PI</span><span class="p">)</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span>
+</span><span class='line'>                <span class="nl">clockwise:</span> <span class="n">true</span><span class="p">)</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="n">path</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">10</span>
