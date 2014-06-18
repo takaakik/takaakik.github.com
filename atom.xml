@@ -4,13 +4,90 @@
   <title><![CDATA[GIGO]]></title>
   <link href="http://takaakik.github.io/atom.xml" rel="self"/>
   <link href="http://takaakik.github.io/"/>
-  <updated>2014-06-18T17:48:26+09:00</updated>
+  <updated>2014-06-18T19:11:00+09:00</updated>
   <id>http://takaakik.github.io/</id>
   <author>
     <name><![CDATA[Takaaki Kawakami]]></name>
     
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Chapter 6 View Controllers part1]]></title>
+    <link href="http://takaakik.github.io/blog/2014/06/18/chapter-6-view-controllers-part1/"/>
+    <updated>2014-06-18T19:07:20+09:00</updated>
+    <id>http://takaakik.github.io/blog/2014/06/18/chapter-6-view-controllers-part1</id>
+    <content type="html"><![CDATA[<h2>Setting the root view controller</h2>
+
+<p>SwiftBNRHypnosisViewController.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRHypnosisViewController:</span> <span class="n">UIViewController</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">loadView</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">frame:</span> <span class="n">CGRect</span> <span class="o">=</span> <span class="n">UIScreen</span><span class="p">.</span><span class="n">mainScreen</span><span class="p">().</span><span class="n">bounds</span>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">backgroundView:</span> <span class="n">SwiftBNRHypnosisView</span> <span class="o">=</span> <span class="n">SwiftBNRHypnosisView</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">frame</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">backgroundView</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>AppDelegate.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">UIApplicationMain</span>
+</span><span class='line'><span class="n">class</span> <span class="nl">AppDelegate:</span> <span class="n">UIResponder</span><span class="p">,</span> <span class="n">UIApplicationDelegate</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">window:</span> <span class="n">UIWindow</span><span class="o">?</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">application</span><span class="p">(</span><span class="nl">application:</span> <span class="n">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nl">launchOptions:</span> <span class="n">NSDictionary</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">UIWindow</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">UIScreen</span><span class="p">.</span><span class="n">mainScreen</span><span class="p">().</span><span class="n">bounds</span><span class="p">)</span>
+</span><span class='line'>        <span class="c1">// Override point for customization after application launch.</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">hvc:</span> <span class="n">SwiftBNRHypnosisViewController</span> <span class="o">=</span> <span class="n">SwiftBNRHypnosisViewController</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">hvc</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">whiteColor</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">makeKeyAndVisible</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">true</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Chapter 5 Views: Redrawing and UIScrollView part3]]></title>
