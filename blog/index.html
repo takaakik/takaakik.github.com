@@ -7,7 +7,7 @@
 
 	<meta name="author" content="Takaaki Kawakami">
 
-<meta name="description" content="Setting the root view controller SwiftBNRHypnosisViewController.swift 1
+<meta name="description" content="Another UIViewController SwiftBNRReminderViewController.swift 1
 2
 3
 4
@@ -17,7 +17,7 @@
 8
 9
 10
-import UIKit class SwiftBNRHypnosisViewController: &hellip;"> <meta name="keywords" content="">
+import UIKit class SwiftBNRReminderViewController: &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -57,6 +57,118 @@ import UIKit class SwiftBNRHypnosisViewController: &hellip;"> <meta name="keywor
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2014/06/19/chapter-6-view-controllers-part2/">
+			
+				Chapter 6 View Controllers Part2</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-19T15:53:41+09:00" pubdate data-updated="true">Jun 19<span>th</span>, 2014</time></div>
+	</header>
+	<div class="entry-content">
+		<h2>Another UIViewController</h2>
+
+<p>SwiftBNRReminderViewController.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRReminderViewController:</span> <span class="n">UIViewController</span> <span class="p">{</span>
+</span><span class='line'>    <span class="err">@</span><span class="kt">IBOutlet</span> <span class="n">var</span> <span class="nl">datePicker:</span> <span class="n">UIDatePicker</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="err">@</span><span class="kt">IBAction</span> <span class="n">func</span> <span class="n">addReminder</span><span class="p">(</span><span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">date:</span> <span class="n">NSDate</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">datePicker</span><span class="p">.</span><span class="n">date</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;Setting a reminder for \(date)&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>AppDelegate.swif</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">UIApplicationMain</span>
+</span><span class='line'><span class="n">class</span> <span class="nl">AppDelegate:</span> <span class="n">UIResponder</span><span class="p">,</span> <span class="n">UIApplicationDelegate</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">window:</span> <span class="n">UIWindow</span><span class="o">?</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">application</span><span class="p">(</span><span class="nl">application:</span> <span class="n">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nl">launchOptions:</span> <span class="n">NSDictionary</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">UIWindow</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">UIScreen</span><span class="p">.</span><span class="n">mainScreen</span><span class="p">().</span><span class="n">bounds</span><span class="p">)</span>
+</span><span class='line'>        <span class="c1">// Override point for customization after application launch.</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">hvc</span> <span class="o">=</span> <span class="n">SwiftBNRHypnosisViewController</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">appBundle:</span> <span class="n">NSBundle</span> <span class="o">=</span> <span class="n">NSBundle</span><span class="p">.</span><span class="n">mainBundle</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">rvc</span> <span class="o">=</span> <span class="n">SwiftBNRReminderViewController</span><span class="p">(</span><span class="nl">nibName:</span> <span class="s">&quot;SwiftBNRReminderViewController&quot;</span><span class="p">,</span> <span class="nl">bundle:</span> <span class="n">appBundle</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">rvc</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">whiteColor</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">makeKeyAndVisible</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">true</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When setting SwiftBNRReminderViewController.xib&rsquo;s file owner, if SwiftBNRReminderViewController does not appear on the select box, you need to choose something with a strange prefix like _TtC14SwiftHypnoNerd30SwiftBNRReminderViewController.</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -1110,38 +1222,6 @@ Wrote some code for verification.</p>
 </span><span class='line'><span class="n">Program</span> <span class="n">ended</span> <span class="n">with</span> <span class="n">exit</span> <span class="nl">code:</span> <span class="mi">0</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<header>
-		<h2 class="title">
-			
-			<a href="/blog/2014/06/13/chapter-2-objective-c-in-swift-part5/">
-			
-				Chapter 2: Objective-C in Swift Part5</a>
-		</h2>
-		<div class="meta date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-13T18:13:22+09:00" pubdate data-updated="true">Jun 13<span>th</span>, 2014</time></div>
-	</header>
-	<div class="entry-content">
-		<p><em>iOS Programming:The Big Nerd Ranch Guide, 4th Edition</em> has <em>For the More Curious</em> part at the end of every chapter and for the chapter 2 it&rsquo;s <em>Class Names</em>. It explains about the importance of class prefixes for avoiding name collision in objective-C since it has no namespace implemented. It seems that the new Xcode6-beta deleted setting for class prefixes. Maybe the reason why is that Swift has namespaces?</p>
 
 		
 		
