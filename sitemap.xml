@@ -99,20 +99,26 @@
         <lastmod>2014-06-20T13:57:46+09:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://takaakik.github.io/blog/2014/06/20/chapter-7-delegation-and-text-input-part1/
+        </loc>
+        <lastmod>2014-06-20T18:35:44+09:00</lastmod>
+    </url>
+    <url>
         <loc>http://takaakik.github.io/about/</loc>
         <lastmod>2014-06-13T17:17:57+09:00</lastmod>
     </url>
     <url>
         <loc>http://takaakik.github.io/archives/</loc>
-        <lastmod>2014-06-20T13:57:46+09:00</lastmod>
+        <lastmod>2014-06-20T18:35:44+09:00</lastmod>
     </url>
     <url>
         <loc>http://takaakik.github.io/blog/archives/</loc>
-        <lastmod>2014-06-20T13:57:46+09:00</lastmod>
+        <lastmod>2014-06-20T18:35:44+09:00</lastmod>
     </url>
     <url>
         <loc>http://takaakik.github.io/blog/</loc>
-        <lastmod>2014-06-20T13:57:46+09:00</lastmod>
+        <lastmod>2014-06-20T18:35:44+09:00</lastmod>
     </url>
     <url>
         <loc>http://takaakik.github.io/contact/</loc>
@@ -120,7 +126,7 @@
     </url>
     <url>
         <loc>http://takaakik.github.io/</loc>
-        <lastmod>2014-06-20T13:57:46+09:00</lastmod>
+        <lastmod>2014-06-20T18:35:44+09:00</lastmod>
     </url>
     <url>
         <loc>http://takaakik.github.io/robots.txt</loc>

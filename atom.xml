@@ -4,13 +4,133 @@
   <title><![CDATA[GIGO]]></title>
   <link href="http://takaakik.github.io/atom.xml" rel="self"/>
   <link href="http://takaakik.github.io/"/>
-  <updated>2014-06-20T13:58:25+09:00</updated>
+  <updated>2014-06-20T18:36:10+09:00</updated>
   <id>http://takaakik.github.io/</id>
   <author>
     <name><![CDATA[Takaaki Kawakami]]></name>
     
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Chapter 7 Delegation and Text Input part1]]></title>
+    <link href="http://takaakik.github.io/blog/2014/06/20/chapter-7-delegation-and-text-input-part1/"/>
+    <updated>2014-06-20T18:34:09+09:00</updated>
+    <id>http://takaakik.github.io/blog/2014/06/20/chapter-7-delegation-and-text-input-part1</id>
+    <content type="html"><![CDATA[<h2>Adding the Labels to the Screen</h2>
+
+<h2>Motion Effects</h2>
+
+<p>SwiftBNRHypnosisViewController.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRHypnosisViewController:</span> <span class="n">UIViewController</span><span class="p">,</span> <span class="n">UITextFieldDelegate</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">textFieldShouldReturn</span><span class="p">(</span><span class="nl">textField:</span> <span class="n">UITextField</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;\(textField.text)&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">drawHypnoticMessage</span><span class="p">(</span><span class="n">textField</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">textField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+</span><span class='line'>        <span class="n">textField</span><span class="p">.</span><span class="n">resignFirstResponder</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">true</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">drawHypnoticMessage</span><span class="p">(</span><span class="nl">message:</span> <span class="n">NSString</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">var</span> <span class="n">messageLabel</span> <span class="o">=</span> <span class="n">UILabel</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">clearColor</span><span class="p">()</span>
+</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">whiteColor</span><span class="p">();</span>
+</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">message</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">sizeToFit</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">var</span> <span class="n">width</span> <span class="o">=</span> <span class="n">UInt32</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">messageLabel</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">var</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">width</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">var</span> <span class="n">height</span> <span class="o">=</span> <span class="n">UInt32</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">messageLabel</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">var</span> <span class="n">y</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">height</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">var</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">messageLabel</span><span class="p">.</span><span class="n">frame</span>
+</span><span class='line'>            <span class="n">frame</span><span class="p">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">messageLabel</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">var</span> <span class="n">motionEffect</span> <span class="o">=</span> <span class="n">UIInterpolatingMotionEffect</span><span class="p">(</span><span class="nl">keyPath:</span> <span class="s">&quot;center.x&quot;</span><span class="p">,</span> <span class="nl">type:</span> <span class="n">UIInterpolatingMotionEffectType</span><span class="p">.</span><span class="n">TiltAlongHorizontalAxis</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">motionEffect</span><span class="p">.</span><span class="n">minimumRelativeValue</span> <span class="o">=</span> <span class="o">-</span><span class="mi">25</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">motionEffect</span><span class="p">.</span><span class="n">maximumRelativeValue</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">addMotionEffect</span><span class="p">(</span><span class="n">motionEffect</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">motionEffect</span> <span class="o">=</span> <span class="n">UIInterpolatingMotionEffect</span><span class="p">(</span><span class="nl">keyPath:</span> <span class="s">&quot;center.y&quot;</span><span class="p">,</span> <span class="nl">type:</span> <span class="n">UIInterpolatingMotionEffectType</span><span class="p">.</span><span class="n">TiltAlongVerticalAxis</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">motionEffect</span><span class="p">.</span><span class="n">minimumRelativeValue</span> <span class="o">=</span> <span class="o">-</span><span class="mi">25</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">motionEffect</span><span class="p">.</span><span class="n">maximumRelativeValue</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">addMotionEffect</span><span class="p">(</span><span class="n">motionEffect</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Chapter 6 View Controllers part6]]></title>
@@ -1603,142 +1723,6 @@ Wrote some code for verification.</p>
 </span><span class='line'>
 </span><span class='line'><span class="k">for</span> <span class="n">item</span> <span class="k">in</span> <span class="n">items</span><span class="p">{</span>
 </span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Programming: The Big Nerd Ranch Guide in Swift]]></title>
-    <link href="http://takaakik.github.io/blog/2014/06/12/ios-programming-the-big-nerd-ranch-guide-in-swift/"/>
-    <updated>2014-06-12T18:42:33+09:00</updated>
-    <id>http://takaakik.github.io/blog/2014/06/12/ios-programming-the-big-nerd-ranch-guide-in-swift</id>
-    <content type="html"><![CDATA[<p><em>iOS Programming:The Big Nerd Ranch Guide, 4th Edition</em> seems to have a good reputation on some book reviews.
-I&rsquo;m translating some example codes in Objective-C to Apple&rsquo;s new programming language Swift.</p>
-
-<p>First chapter: Quiz app</p>
-
-<p>AppDelegate.swift in Swift</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">class</span> <span class="nl">AppDelegate:</span> <span class="n">UIResponder</span><span class="p">,</span> <span class="n">UIApplicationDelegate</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">var</span> <span class="nl">window:</span> <span class="n">UIWindow</span><span class="o">?</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">func</span> <span class="n">application</span><span class="p">(</span><span class="nl">application:</span> <span class="n">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nl">launchOptions:</span> <span class="n">NSDictionary</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">UIWindow</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">UIScreen</span><span class="p">.</span><span class="n">mainScreen</span><span class="p">().</span><span class="n">bounds</span><span class="p">)</span>
-</span><span class='line'>    <span class="c1">// Override point for customization after application launch.</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">var</span> <span class="n">appBundle</span> <span class="o">=</span> <span class="n">NSBundle</span><span class="p">.</span><span class="n">mainBundle</span><span class="p">()</span>
-</span><span class='line'>    <span class="n">var</span> <span class="nl">controller:</span> <span class="n">QuizViewController</span> <span class="o">=</span> <span class="n">QuizViewController</span><span class="p">(</span><span class="nl">nibName:</span> <span class="s">&quot;QuizViewController&quot;</span><span class="p">,</span> <span class="nl">bundle:</span> <span class="n">appBundle</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">controller</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">whiteColor</span><span class="p">()</span>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">makeKeyAndVisible</span><span class="p">()</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">true</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>QuizViewController.swift</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">class</span> <span class="nl">QuizViewController:</span> <span class="n">UIViewController</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">var</span> <span class="n">currentQuestionIndex</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>    <span class="n">var</span> <span class="n">questions</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="o">:</span> <span class="s">&quot;From what awamori is made?&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span> <span class="s">&quot;What is 7+8?&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">:</span> <span class="s">&quot;What is the capital of Hyogo?&quot;</span><span class="p">,]</span>
-</span><span class='line'>    <span class="n">var</span> <span class="n">answers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="o">:</span> <span class="s">&quot;Sugar canes&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span> <span class="s">&quot;15&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">:</span> <span class="s">&quot;Kobe&quot;</span><span class="p">,]</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">@</span><span class="kt">IBOutlet</span> <span class="n">var</span> <span class="nl">questionLabel:</span> <span class="n">UILabel</span>
-</span><span class='line'>    <span class="err">@</span><span class="kt">IBOutlet</span> <span class="n">var</span> <span class="nl">answerLabel:</span> <span class="n">UILabel</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">@</span><span class="kt">IBAction</span> <span class="n">func</span> <span class="n">showQuestion</span><span class="p">(</span><span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// Step to the next question</span>
-</span><span class='line'>        <span class="n">currentQuestionIndex</span><span class="o">++</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// Am I past the last question?</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">currentQuestionIndex</span> <span class="o">==</span> <span class="n">questions</span><span class="p">.</span><span class="n">count</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="c1">// Go back to the first question</span>
-</span><span class='line'>            <span class="n">currentQuestionIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// Get the string at that index in the question array</span>
-</span><span class='line'>        <span class="n">var</span> <span class="n">question</span> <span class="o">=</span> <span class="n">questions</span><span class="p">[</span><span class="n">currentQuestionIndex</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// Display the string in the question label</span>
-</span><span class='line'>        <span class="n">questionLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">question</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// Reset th answer label</span>
-</span><span class='line'>        <span class="n">answerLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&quot;???&quot;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">@</span><span class="kt">IBAction</span> <span class="n">func</span> <span class="n">showAnswer</span><span class="p">(</span><span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// What is the answer to the current question?</span>
-</span><span class='line'>        <span class="n">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">answers</span><span class="p">[</span><span class="n">currentQuestionIndex</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// Display it in the answer label</span>
-</span><span class='line'>        <span class="n">answerLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">answer</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
