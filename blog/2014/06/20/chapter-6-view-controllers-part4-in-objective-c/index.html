@@ -1,0 +1,160 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>Chapter 6 View Controllers part4 in Objective-C  | GIGO</title>
+
+	<meta name="author" content="Takaaki Kawakami">
+
+<meta name="description" content="Adding a Local Notification Objective-C code in the book didn&rsquo;t work, sending error like 1
+2014-06-19 18:52:21.223 HypnoNerd[8232:143698] &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="GIGO" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">GIGO</a></h1>
+<span class="tagline">Garbage in, garbage out.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<header>
+		<h2 class="title">Chapter 6 View Controllers Part4 in Objective-C</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-20T13:10:32+09:00" pubdate data-updated="true">Jun 20<span>th</span>, 2014</time></div>
+	</header>
+	<div class="entry-content"><h2>Adding a Local Notification</h2>
+
+<p>Objective-C code in the book didn&rsquo;t work, sending error like</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>2014-06-19 18:52:21.223 HypnoNerd[8232:143698] Attempting to schedule a local notification &lt;UIConcreteLocalNotification: 0xb88a190&gt;{fire date = Thursday, June 19, 2014 at 6:53:17 PM Japan Standard Time, time zone = (null), repeat interval = 0, repeat count = UILocalNotificationInfiniteRepeatCount, next fire date = Thursday, June 19, 2014 at 6:53:17 PM Japan Standard Time, user info = (null)} with an alert but haven't received permission from the user to display alerts</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In AppDelegate.m, you need to write to ask the user for the permission</p>
+
+<p><a href="http://stackoverflow.com/questions/24100313/ask-for-user-permission-to-recieve-local-notifications-on-ios">Ask for User Permission to Recieve Local Notifications on iOS</a></p>
+
+<p><a href="http://stackoverflow.com/questions/24006998/implicit-conversion-of-unsigned-long-uiusernotificationsettings-is-disallow]">implicit conversion of &lsquo;unsigned long &#8216;UIUserNotificationSettings *&rsquo; is disallowed with arc</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIWindow</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="p">[[</span><span class="n">UIScreen</span> <span class="n">mainScreen</span><span class="p">]</span> <span class="n">bounds</span><span class="p">]];</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">--</span> <span class="n">snip</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[[</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span> <span class="nl">registerUserNotificationSettings:</span><span class="p">[</span><span class="n">UIUserNotificationSettings</span> <span class="nl">settingsForTypes:</span><span class="p">(</span><span class="n">UIUserNotificationTypeSound</span> <span class="o">|</span> <span class="n">UIUserNotificationTypeAlert</span> <span class="o">|</span> <span class="n">UIUserNotificationTypeBadge</span><span class="p">)</span> <span class="nl">categories:</span><span class="nb">nil</span><span class="p">]];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+	
+
+</article>
+
+	
+	<div class="share">
+		<ul>
+			<li>
+  <a href="https://twitter.com/intent/tweet?text=Chapter 6 View Controllers part4 in Objective-C by @&url=http://takaakik.github.io/blog/2014/06/20/chapter-6-view-controllers-part4-in-objective-c/" title="Share Chapter 6 View Controllers part4 in Objective-C on Twitter">
+    <img src="/images/social/twitter.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://www.facebook.com/sharer.php?u=http://takaakik.github.io/blog/2014/06/20/chapter-6-view-controllers-part4-in-objective-c/" title="Share Chapter 6 View Controllers part4 in Objective-C on Facebook">
+    <img src="/images/social/facebook.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://plus.google.com/share?url=http://takaakik.github.io/blog/2014/06/20/chapter-6-view-controllers-part4-in-objective-c/" title="Share Chapter 6 View Controllers part4 in Objective-C on Google Plus">
+    <img src="/images/social/google.png" />
+  </a>
+</li>
+
+		</ul>
+	</div>
+
+
+
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    Takaaki Kawakami
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-51905939-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+
+</body>
+</html>
