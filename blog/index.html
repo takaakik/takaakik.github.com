@@ -7,7 +7,7 @@
 
 	<meta name="author" content="Takaaki Kawakami">
 
-<meta name="description" content="AppDelegate.swift 1
+<meta name="description" content="SwiftBNRItemViewController.swift 1
 2
 3
 4
@@ -26,8 +26,28 @@
 17
 18
 19
-import UIKit @UIApplicationMain
-class AppDelegate: UIResponder, &hellip;"> <meta name="keywords" content="">
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41 &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -67,6 +87,326 @@ class AppDelegate: UIResponder, &hellip;"> <meta name="keywords" content="">
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2014/06/24/chapter-9-editing-uitableview/">
+			
+				Chapter 9 Editing UITableView</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-24T18:34:12+09:00" pubdate data-updated="true">Jun 24<span>th</span>, 2014</time></div>
+	</header>
+	<div class="entry-content">
+		<p>SwiftBNRItemViewController.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRItemViewController:</span> <span class="n">UITableViewController</span><span class="p">,</span> <span class="n">UITableViewDataSource</span><span class="p">,</span> <span class="n">UITableViewDelegate</span>  <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// http://forums.bignerdranch.com/viewtopic.php?f=489&amp;t=8939</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// All instances of TableViewController should use UITableViewStyle.Plain</span>
+</span><span class='line'>    <span class="c1">// and this initializer</span>
+</span><span class='line'>    <span class="n">convenience</span> <span class="n">init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">style:</span> <span class="n">UITableViewStyle</span><span class="p">.</span><span class="n">Plain</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/*</span>
+</span><span class='line'><span class="cm">    // should be using this, but use of UITableViewController.init(style:) has a</span>
+</span><span class='line'><span class="cm">    // bug where it accidentally calls &quot;unimplemented initializer &#39;init(nibName:bundle:)&quot;</span>
+</span><span class='line'><span class="cm">    init() {</span>
+</span><span class='line'><span class="cm">        super.init(style: UITableViewStyle.Plain)</span>
+</span><span class='line'><span class="cm">    }</span>
+</span><span class='line'><span class="cm">    */</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">tableView</span><span class="p">.</span><span class="n">registerClass</span><span class="p">(</span><span class="n">UITableViewCell</span><span class="p">.</span><span class="n">self</span><span class="p">,</span> <span class="nl">forCellReuseIdentifier:</span> <span class="s">&quot;UITableViewCell&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">tableView</span><span class="p">.</span><span class="n">tableHeaderView</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">headerView</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView:</span> <span class="n">UITableView</span><span class="o">!</span><span class="p">,</span> <span class="n">numberOfRowsInSection</span> <span class="nl">section:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">SwiftBNRItemStore</span><span class="p">.</span><span class="n">sharedStore</span><span class="p">.</span><span class="n">allItems</span><span class="p">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView:</span> <span class="n">UITableView</span><span class="o">!</span><span class="p">,</span> <span class="n">cellForRowAtIndexPath</span> <span class="nl">indexPath:</span><span class="n">NSIndexPath</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UITableViewCell</span><span class="o">!</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: &quot;UITableViewCell&quot;)</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">cell</span> <span class="o">:</span> <span class="n">UITableViewCell</span> <span class="o">=</span> <span class="n">tableView</span><span class="p">.</span><span class="n">dequeueReusableCellWithIdentifier</span><span class="p">(</span><span class="s">&quot;UITableViewCell&quot;</span><span class="p">,</span> <span class="nl">forIndexPath:</span> <span class="n">indexPath</span><span class="p">)</span> <span class="n">as</span> <span class="n">UITableViewCell</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">items</span> <span class="o">=</span> <span class="n">SwiftBNRItemStore</span><span class="p">.</span><span class="n">sharedStore</span><span class="p">.</span><span class="n">allItems</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">item</span> <span class="o">=</span> <span class="n">SwiftBNRItem</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">cell</span><span class="p">.</span><span class="n">textLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">item</span><span class="p">.</span><span class="n">description</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">cell</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView:</span> <span class="n">UITableView</span><span class="o">!</span><span class="p">,</span> <span class="n">commitEditingStyle</span> <span class="nl">editingStyle:</span><span class="n">UITableViewCellEditingStyle</span><span class="p">,</span> <span class="n">forRowAtIndexPath</span> <span class="nl">indexPath:</span><span class="n">NSIndexPath</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">editingStyle</span> <span class="o">==</span> <span class="n">UITableViewCellEditingStyle</span><span class="p">.</span><span class="n">Delete</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">var</span> <span class="n">items</span> <span class="o">=</span> <span class="n">SwiftBNRItemStore</span><span class="p">.</span><span class="n">sharedStore</span><span class="p">.</span><span class="n">allItems</span>
+</span><span class='line'>            <span class="n">var</span> <span class="n">item</span> <span class="o">=</span> <span class="n">SwiftBNRItem</span><span class="p">()</span>
+</span><span class='line'>            <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">SwiftBNRItemStore</span><span class="p">.</span><span class="n">sharedStore</span><span class="p">.</span><span class="n">removeItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">tableView</span><span class="p">.</span><span class="n">deleteRowsAtIndexPaths</span><span class="p">([</span><span class="n">indexPath</span><span class="p">],</span> <span class="nl">withRowAnimation:</span> <span class="n">UITableViewRowAnimation</span><span class="p">.</span><span class="n">Fade</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView:</span> <span class="n">UITableView</span><span class="o">!</span><span class="p">,</span> <span class="n">moveRowAtIndexPath</span> <span class="nl">sourceIndexPath:</span><span class="n">NSIndexPath</span><span class="p">,</span> <span class="n">toIndexPath</span> <span class="nl">destinationIndexPath:</span><span class="n">NSIndexPath</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">SwiftBNRItemStore</span><span class="p">.</span><span class="n">sharedStore</span><span class="p">.</span><span class="n">moveItemAtIndex</span><span class="p">(</span><span class="n">sourceIndexPath</span><span class="p">.</span><span class="n">row</span><span class="p">,</span> <span class="nl">toIndex:</span> <span class="n">destinationIndexPath</span><span class="p">.</span><span class="n">row</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="n">_headerView</span> <span class="o">:</span> <span class="n">UIView</span><span class="o">?</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'>    <span class="err">@</span><span class="kt">IBOutlet</span> <span class="n">var</span> <span class="n">headerView</span> <span class="o">:</span> <span class="n">UIView</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">!</span><span class="n">_headerView</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">NSBundle</span><span class="p">.</span><span class="n">mainBundle</span><span class="p">().</span><span class="n">loadNibNamed</span><span class="p">(</span><span class="s">&quot;HeaderView&quot;</span><span class="p">,</span> <span class="nl">owner:</span> <span class="n">self</span><span class="p">,</span> <span class="nl">options:</span> <span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">_headerView</span><span class="o">!</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">_headerView</span> <span class="o">=</span> <span class="n">newValue</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="err">@</span><span class="kt">IBAction</span> <span class="n">func</span> <span class="n">addNewItem</span><span class="p">(</span><span class="nl">sender:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">newItem</span> <span class="o">=</span> <span class="n">SwiftBNRItemStore</span><span class="p">.</span><span class="n">sharedStore</span><span class="p">.</span><span class="n">createItem</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">lastRow</span> <span class="o">=</span> <span class="n">SwiftBNRItemStore</span><span class="p">.</span><span class="n">sharedStore</span><span class="p">.</span><span class="n">allItems</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="nl">object:</span> <span class="n">newItem</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">indexPath</span> <span class="o">=</span> <span class="n">NSIndexPath</span><span class="p">(</span><span class="nl">forRow:</span> <span class="n">lastRow</span><span class="p">,</span> <span class="nl">inSection:</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">tableView</span><span class="p">.</span><span class="n">insertRowsAtIndexPaths</span><span class="p">([</span><span class="n">indexPath</span><span class="p">],</span> <span class="nl">withRowAnimation:</span> <span class="n">UITableViewRowAnimation</span><span class="p">.</span><span class="n">Top</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="err">@</span><span class="kt">IBAction</span> <span class="n">func</span> <span class="n">toggleEditingMode</span><span class="p">(</span><span class="nl">sender:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">editing</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">sender</span><span class="p">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s">&quot;Edit&quot;</span><span class="p">,</span> <span class="nl">forState:</span> <span class="n">UIControlState</span><span class="p">.</span><span class="n">Normal</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">setEditing</span><span class="p">(</span><span class="n">false</span><span class="p">,</span> <span class="nl">animated:</span><span class="n">true</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">sender</span><span class="p">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s">&quot;Done&quot;</span><span class="p">,</span> <span class="nl">forState:</span> <span class="n">UIControlState</span><span class="p">.</span><span class="n">Normal</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">setEditing</span><span class="p">(</span><span class="n">true</span><span class="p">,</span> <span class="nl">animated:</span><span class="n">true</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>SwiftBNRItemStore.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// http://forums.bignerdranch.com/viewtopic.php?f=490&amp;t=8942</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">import</span> <span class="n">Foundation</span>
+</span><span class='line'><span class="n">extension</span> <span class="n">Array</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">indexOf</span><span class="p">(</span><span class="err">#</span><span class="nl">object:</span><span class="n">AnyObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">bridgeToObjectiveC</span><span class="p">().</span><span class="n">indexOfObject</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">let</span> <span class="n">_GlobalItemStoreSharedInstance</span> <span class="o">=</span> <span class="n">SwiftBNRItemStore</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRItemStore:</span> <span class="n">NSObject</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">class</span> <span class="n">var</span> <span class="n">sharedStore</span> <span class="o">:</span> <span class="n">SwiftBNRItemStore</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">_GlobalItemStoreSharedInstance</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="n">_privateItems</span> <span class="o">=</span> <span class="n">SwiftBNRItem</span><span class="p">[]()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">allItems:</span> <span class="n">SwiftBNRItem</span><span class="p">[]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">_privateItems</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">createItem</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">SwiftBNRItem</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">item</span> <span class="o">=</span> <span class="n">SwiftBNRItem</span><span class="p">.</span><span class="n">randomItem</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">_privateItems</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">item</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">removeItem</span><span class="p">(</span><span class="nl">item:</span> <span class="n">SwiftBNRItem</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span> <span class="k">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">_privateItems</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">element</span> <span class="o">===</span> <span class="n">item</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">_privateItems</span><span class="p">.</span><span class="n">removeAtIndex</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">moveItemAtIndex</span><span class="p">(</span><span class="nl">fromIndex:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">toIndex:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">fromIndex</span> <span class="o">==</span> <span class="n">toIndex</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">item</span> <span class="o">=</span> <span class="n">_privateItems</span><span class="p">[</span><span class="n">fromIndex</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">_privateItems</span><span class="p">.</span><span class="n">removeAtIndex</span><span class="p">(</span><span class="n">fromIndex</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">_privateItems</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nl">atIndex:</span> <span class="n">toIndex</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -1135,93 +1475,6 @@ class AppDelegate: UIResponder, &hellip;"> <meta name="keywords" content="">
 </span><span class='line'>        <span class="n">screenRect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">screenRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
 </span><span class='line'>        <span class="n">var</span> <span class="nl">anotherView:</span> <span class="n">SwiftBNRHypnosisView</span> <span class="o">=</span> <span class="n">SwiftBNRHypnosisView</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">screenRect</span><span class="p">)</span>
 </span><span class='line'>        <span class="n">scrollView</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">anotherView</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">scrollView</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">bigRect</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">whiteColor</span><span class="p">()</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">makeKeyAndVisible</span><span class="p">()</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">true</span>
-</span><span class='line'>    <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<header>
-		<h2 class="title">
-			
-			<a href="/blog/2014/06/18/chapter-5-views-redrawing-and-uiscrollview-part2/">
-			
-				Chapter 5 Views: Redrawing and UIScrollView Part2</a>
-		</h2>
-		<div class="meta date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-18T17:33:37+09:00" pubdate data-updated="true">Jun 18<span>th</span>, 2014</time></div>
-	</header>
-	<div class="entry-content">
-		<h2>Using UIScrollView</h2>
-
-<p>AppDelegate.swift</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">class</span> <span class="nl">AppDelegate:</span> <span class="n">UIResponder</span><span class="p">,</span> <span class="n">UIApplicationDelegate</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">var</span> <span class="nl">window:</span> <span class="n">UIWindow</span><span class="o">?</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">func</span> <span class="n">application</span><span class="p">(</span><span class="nl">application:</span> <span class="n">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nl">launchOptions:</span> <span class="n">NSDictionary</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">UIWindow</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">UIScreen</span><span class="p">.</span><span class="n">mainScreen</span><span class="p">().</span><span class="n">bounds</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">var</span> <span class="nl">screenRect:</span> <span class="n">CGRect</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">bounds</span>
-</span><span class='line'>        <span class="n">var</span> <span class="nl">bigRect:</span> <span class="n">CGRect</span> <span class="o">=</span> <span class="n">screenRect</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">bigRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">*=</span> <span class="mf">2.0</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">bigRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">*=</span> <span class="mf">2.0</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">var</span> <span class="nl">scrollView:</span> <span class="n">UIScrollView</span> <span class="o">=</span> <span class="n">UIScrollView</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">screenRect</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">scrollView</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">var</span> <span class="nl">hynosisView:</span> <span class="n">SwiftBNRHypnosisView</span> <span class="o">=</span> <span class="n">SwiftBNRHypnosisView</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">bigRect</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">scrollView</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">hynosisView</span><span class="p">)</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="n">scrollView</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">bigRect</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
 </span><span class='line'>
