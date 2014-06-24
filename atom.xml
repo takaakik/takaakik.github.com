@@ -4,13 +4,207 @@
   <title><![CDATA[GIGO]]></title>
   <link href="http://takaakik.github.io/atom.xml" rel="self"/>
   <link href="http://takaakik.github.io/"/>
-  <updated>2014-06-20T18:36:10+09:00</updated>
+  <updated>2014-06-24T13:18:41+09:00</updated>
   <id>http://takaakik.github.io/</id>
   <author>
     <name><![CDATA[Takaaki Kawakami]]></name>
     
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Chapter 8 UITableView and UITableViewController]]></title>
+    <link href="http://takaakik.github.io/blog/2014/06/24/chapter-8-uitableview-and-uitableviewcontroller/"/>
+    <updated>2014-06-24T13:14:59+09:00</updated>
+    <id>http://takaakik.github.io/blog/2014/06/24/chapter-8-uitableview-and-uitableviewcontroller</id>
+    <content type="html"><![CDATA[<p>AppDelegate.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">UIApplicationMain</span>
+</span><span class='line'><span class="n">class</span> <span class="nl">AppDelegate:</span> <span class="n">UIResponder</span><span class="p">,</span> <span class="n">UIApplicationDelegate</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">window:</span> <span class="n">UIWindow</span><span class="o">?</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">application</span><span class="p">(</span><span class="nl">application:</span> <span class="n">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nl">launchOptions:</span> <span class="n">NSDictionary</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">UIWindow</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">UIScreen</span><span class="p">.</span><span class="n">mainScreen</span><span class="p">().</span><span class="n">bounds</span><span class="p">)</span>
+</span><span class='line'>        <span class="c1">// Override point for customization after application launch.</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">itemViewController</span> <span class="o">=</span> <span class="n">SwiftBNRItemViewController</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">itemViewController</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">whiteColor</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">makeKeyAndVisible</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">true</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>SwiftBNRItemViewController.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRItemViewController:</span> <span class="n">UITableViewController</span><span class="p">,</span> <span class="n">UITableViewDataSource</span><span class="p">,</span> <span class="n">UITableViewDelegate</span>  <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// http://forums.bignerdranch.com/viewtopic.php?f=489&amp;t=8939</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// All instances of TableViewController should use UITableViewStyle.Plain</span>
+</span><span class='line'>    <span class="c1">// and this initializer</span>
+</span><span class='line'>    <span class="n">convenience</span> <span class="n">init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">style:</span> <span class="n">UITableViewStyle</span><span class="p">.</span><span class="n">Plain</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// Initialize the ItemStore to have 5 random items</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mf">0..5</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">SwiftBNRItemStore</span><span class="p">.</span><span class="n">sharedStore</span><span class="p">.</span><span class="n">createItem</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/*</span>
+</span><span class='line'><span class="cm">    // should be using this, but use of UITableViewController.init(style:) has a</span>
+</span><span class='line'><span class="cm">    // bug where it accidentally calls &quot;unimplemented initializer &#39;init(nibName:bundle:)&quot;</span>
+</span><span class='line'><span class="cm">    init() {</span>
+</span><span class='line'><span class="cm">        super.init(style: UITableViewStyle.Plain)</span>
+</span><span class='line'><span class="cm">    }*/</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">tableView</span><span class="p">.</span><span class="n">registerClass</span><span class="p">(</span><span class="n">UITableViewCell</span><span class="p">.</span><span class="n">self</span><span class="p">,</span> <span class="nl">forCellReuseIdentifier:</span> <span class="s">&quot;UITableViewCell&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView:</span> <span class="n">UITableView</span><span class="o">!</span><span class="p">,</span> <span class="n">numberOfRowsInSection</span> <span class="nl">section:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">SwiftBNRItemStore</span><span class="p">.</span><span class="n">sharedStore</span><span class="p">.</span><span class="n">allItems</span><span class="p">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView:</span> <span class="n">UITableView</span><span class="o">!</span><span class="p">,</span> <span class="n">cellForRowAtIndexPath</span> <span class="nl">indexPath:</span><span class="n">NSIndexPath</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UITableViewCell</span><span class="o">!</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: &quot;UITableViewCell&quot;)</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">cell</span> <span class="o">:</span> <span class="n">UITableViewCell</span> <span class="o">=</span> <span class="n">tableView</span><span class="p">.</span><span class="n">dequeueReusableCellWithIdentifier</span><span class="p">(</span><span class="s">&quot;UITableViewCell&quot;</span><span class="p">,</span> <span class="nl">forIndexPath:</span> <span class="n">indexPath</span><span class="p">)</span> <span class="n">as</span> <span class="n">UITableViewCell</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">items</span> <span class="o">=</span> <span class="n">SwiftBNRItemStore</span><span class="p">.</span><span class="n">sharedStore</span><span class="p">.</span><span class="n">allItems</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">item</span> <span class="o">=</span> <span class="n">SwiftBNRItem</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">cell</span><span class="p">.</span><span class="n">textLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">item</span><span class="p">.</span><span class="n">description</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">cell</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>SwiftBNRItemStore.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">let</span> <span class="n">_GlobalItemStoreSharedInstance</span> <span class="o">=</span> <span class="n">SwiftBNRItemStore</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRItemStore:</span> <span class="n">NSObject</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">class</span> <span class="n">var</span> <span class="n">sharedStore</span> <span class="o">:</span> <span class="n">SwiftBNRItemStore</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">_GlobalItemStoreSharedInstance</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="n">_privateItems</span> <span class="o">=</span> <span class="n">SwiftBNRItem</span><span class="p">[]()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">allItems:</span> <span class="n">SwiftBNRItem</span><span class="p">[]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">_privateItems</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">createItem</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">SwiftBNRItem</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">item</span> <span class="o">=</span> <span class="n">SwiftBNRItem</span><span class="p">.</span><span class="n">randomItem</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">_privateItems</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">item</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Chapter 7 Delegation and Text Input part1]]></title>
@@ -1636,93 +1830,6 @@ Wrote some code for verification.</p>
 </span><span class='line'>            <span class="k">return</span> <span class="s">&quot;\(self.itemName) (\(self.serialNumber)) : Worth $\(self.valueInDollars), recorded on \(self.createDate)&quot;</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Chapter 2: Objective-C in Swift Part1]]></title>
-    <link href="http://takaakik.github.io/blog/2014/06/13/chapter-2-objective-c-in-swift-part1/"/>
-    <updated>2014-06-13T17:23:35+09:00</updated>
-    <id>http://takaakik.github.io/blog/2014/06/13/chapter-2-objective-c-in-swift-part1</id>
-    <content type="html"><![CDATA[<p>Chapter 2: Objective-C</p>
-
-<p>Array handling</p>
-
-<p>Objective-C code</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="err">@</span><span class="n">autoreleasepool</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">items</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="p">[</span><span class="n">items</span> <span class="nl">addObject:</span><span class="s">@&quot;One&quot;</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">items</span> <span class="nl">addObject:</span><span class="s">@&quot;Two&quot;</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">items</span> <span class="nl">addObject:</span><span class="s">@&quot;Three&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="p">[</span><span class="n">items</span> <span class="nl">insertObject:</span><span class="s">@&quot;Zero&quot;</span> <span class="nl">atIndex:</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">item</span> <span class="k">in</span> <span class="n">items</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">items</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Swift code</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">Foundation</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">var</span> <span class="n">items</span> <span class="o">=</span> <span class="n">String</span><span class="p">[]()</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">items</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;One&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="n">items</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;Two&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="n">items</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;Three&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">items</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&quot;Zero&quot;</span><span class="p">,</span> <span class="nl">atIndex:</span><span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="n">item</span> <span class="k">in</span> <span class="n">items</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
