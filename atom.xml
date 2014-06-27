@@ -4,13 +4,126 @@
   <title><![CDATA[GIGO]]></title>
   <link href="http://takaakik.github.io/atom.xml" rel="self"/>
   <link href="http://takaakik.github.io/"/>
-  <updated>2014-06-26T18:51:17+09:00</updated>
+  <updated>2014-06-27T17:48:05+09:00</updated>
   <id>http://takaakik.github.io/</id>
   <author>
     <name><![CDATA[Takaaki Kawakami]]></name>
     
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Chapter 10 UINavigationController part2]]></title>
+    <link href="http://takaakik.github.io/blog/2014/06/27/chapter-10-uinavigationcontroller-part2/"/>
+    <updated>2014-06-27T17:44:35+09:00</updated>
+    <id>http://takaakik.github.io/blog/2014/06/27/chapter-10-uinavigationcontroller-part2</id>
+    <content type="html"><![CDATA[<h2>UINavigationBar</h2>
+
+<p>SwiftBNRItemViewController.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRItemViewController:</span> <span class="n">UITableViewController</span><span class="p">,</span> <span class="n">UITableViewDataSource</span><span class="p">,</span> <span class="n">UITableViewDelegate</span>  <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// http://forums.bignerdranch.com/viewtopic.php?f=489&amp;t=8939</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// All instances of TableViewController should use UITableViewStyle.Plain</span>
+</span><span class='line'>    <span class="c1">// and this initializer</span>
+</span><span class='line'>    <span class="n">convenience</span> <span class="n">init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">style:</span> <span class="n">UITableViewStyle</span><span class="p">.</span><span class="n">Plain</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">navItem</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">navigationItem</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">navItem</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">&quot;Homepwner&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">bbi</span> <span class="o">=</span> <span class="n">UIBarButtonItem</span><span class="p">(</span><span class="nl">barButtonSystemItem:</span> <span class="n">UIBarButtonSystemItem</span><span class="p">.</span><span class="n">Add</span><span class="p">,</span> <span class="nl">target:</span> <span class="n">self</span><span class="p">,</span> <span class="nl">action:</span> <span class="s">&quot;addNewItem:&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">navItem</span><span class="p">.</span><span class="n">rightBarButtonItem</span> <span class="o">=</span> <span class="n">bbi</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">navItem</span><span class="p">.</span><span class="n">leftBarButtonItem</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">editButtonItem</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/*</span>
+</span><span class='line'><span class="cm">    // should be using this, but use of UITableViewController.init(style:) has a</span>
+</span><span class='line'><span class="cm">    // bug where it accidentally calls &quot;unimplemented initializer &#39;init(nibName:bundle:)&quot;</span>
+</span><span class='line'><span class="cm">    init() {</span>
+</span><span class='line'><span class="cm">        super.init(style: UITableViewStyle.Plain)</span>
+</span><span class='line'><span class="cm">    }</span>
+</span><span class='line'><span class="cm">    */</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>SwiftBNRDetailViewController.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRDetailViewController:</span> <span class="n">UIViewController</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">viewWillAppear</span><span class="p">(</span><span class="nl">animated:</span> <span class="n">Bool</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">super</span><span class="p">.</span><span class="n">viewWillAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">navigationItem</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">item</span><span class="p">.</span><span class="n">itemName</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">nameField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">item</span><span class="p">.</span><span class="n">itemName</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">serialNumberField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">item</span><span class="p">.</span><span class="n">serialNumber</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">valueField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&quot;\(item.valueInDollars)&quot;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">dateFormatter</span> <span class="o">=</span> <span class="n">NSDateFormatter</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">dateFormatter</span><span class="p">.</span><span class="n">dateStyle</span> <span class="o">=</span> <span class="p">.</span><span class="n">MediumStyle</span>
+</span><span class='line'>        <span class="n">dateFormatter</span><span class="p">.</span><span class="n">timeStyle</span> <span class="o">=</span> <span class="p">.</span><span class="n">NoStyle</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">dateLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&quot;\(dateFormatter.stringFromDate(item.createDate))&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Chapter 10 UINavigationController part1]]></title>
@@ -2047,92 +2160,6 @@ Wrote some code for verification.</p>
     <updated>2014-06-13T18:13:22+09:00</updated>
     <id>http://takaakik.github.io/blog/2014/06/13/chapter-2-objective-c-in-swift-part5</id>
     <content type="html"><![CDATA[<p><em>iOS Programming:The Big Nerd Ranch Guide, 4th Edition</em> has <em>For the More Curious</em> part at the end of every chapter and for the chapter 2 it&rsquo;s <em>Class Names</em>. It explains about the importance of class prefixes for avoiding name collision in objective-C since it has no namespace implemented. It seems that the new Xcode6-beta deleted setting for class prefixes. Maybe the reason why is that Swift has namespaces?</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Chapter 2: Objective-C in Swift Part4]]></title>
-    <link href="http://takaakik.github.io/blog/2014/06/13/chapter-2-objective-c-in-swift-part4/"/>
-    <updated>2014-06-13T17:56:38+09:00</updated>
-    <id>http://takaakik.github.io/blog/2014/06/13/chapter-2-objective-c-in-swift-part4</id>
-    <content type="html"><![CDATA[<p>Implementing a class method. I think there is much better way to do this but it still works. As comments in the code say, <code>let</code> array does not really make it immutable, it&rsquo;s the feature.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">extension</span> <span class="n">String</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">subscript</span> <span class="p">(</span><span class="nl">i:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="n">Array</span><span class="p">(</span><span class="n">self</span><span class="p">)[</span><span class="n">i</span><span class="p">])</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRItem:</span> <span class="n">NSObject</span> <span class="p">{</span>
-</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
-</span><span class='line'>    <span class="n">var</span> <span class="nl">newItem:</span> <span class="n">SwiftBNRItem</span><span class="o">?</span> <span class="o">=</span> <span class="nb">nil</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">class</span> <span class="n">func</span> <span class="n">randomItem</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">SwiftBNRItem</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// not really immutable</span>
-</span><span class='line'>        <span class="c1">// it&#39;s swift feature</span>
-</span><span class='line'>        <span class="c1">// see</span>
-</span><span class='line'>        <span class="c1">// https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/CollectionTypes.html</span>
-</span><span class='line'>        <span class="n">let</span> <span class="n">ramdomAdjectiveList</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Fluffy&quot;</span><span class="p">,</span> <span class="s">&quot;Rusty&quot;</span><span class="p">,</span> <span class="s">&quot;Shiny&quot;</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">let</span> <span class="n">ramdomNounList</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Bear&quot;</span><span class="p">,</span> <span class="s">&quot;Spork&quot;</span><span class="p">,</span> <span class="s">&quot;Mac&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">let</span> <span class="n">adjectiveIndex</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">arc4random_uniform</span><span class="p">(</span><span class="n">UInt32</span><span class="p">(</span><span class="n">ramdomAdjectiveList</span><span class="p">.</span><span class="n">count</span><span class="p">)))</span>
-</span><span class='line'>        <span class="n">let</span> <span class="n">nounIndex</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">arc4random_uniform</span><span class="p">(</span><span class="n">UInt32</span><span class="p">(</span><span class="n">ramdomNounList</span><span class="p">.</span><span class="n">count</span><span class="p">)))</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">let</span> <span class="n">randomName</span> <span class="o">=</span> <span class="n">ramdomAdjectiveList</span><span class="p">[</span><span class="n">adjectiveIndex</span><span class="p">]</span> <span class="o">+</span> <span class="n">ramdomNounList</span><span class="p">[</span><span class="n">nounIndex</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">let</span> <span class="n">randomValue</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">100</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">let</span> <span class="nl">upperCaseAlphabet:</span> <span class="n">String</span> <span class="o">=</span> <span class="s">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span>
-</span><span class='line'>        <span class="n">let</span> <span class="n">randomSerialNumber</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="n">arc4random_uniform</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span> <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="n">upperCaseAlphabet</span><span class="p">[</span><span class="n">Int</span><span class="p">(</span><span class="n">arc4random_uniform</span><span class="p">(</span><span class="mi">26</span><span class="p">))])</span> <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="n">arc4random_uniform</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span> <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="n">upperCaseAlphabet</span><span class="p">[</span><span class="n">Int</span><span class="p">(</span><span class="n">arc4random_uniform</span><span class="p">(</span><span class="mi">26</span><span class="p">))])</span> <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="n">arc4random_uniform</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">let</span> <span class="n">newItem</span> <span class="o">=</span> <span class="n">SwiftBNRItem</span><span class="p">(</span><span class="nl">name:</span> <span class="n">randomName</span><span class="p">,</span> <span class="nl">value:</span> <span class="n">randomValue</span><span class="p">,</span> <span class="nl">sNumber:</span> <span class="n">randomSerialNumber</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">return</span> <span class="n">newItem</span>
-</span><span class='line'>    <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Getting a random alphabet character in Swift was a difficult part and a slightly off topic. There is some discussions here
-<a href="http://stackoverflow.com/questions/24092884/get-nth-character-of-a-string-in-swift-programming-language">Get nth character of a string in Swift programming language</a>. I think there should be a better and easier way then extending String class, but in objective-C&hellip;</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="sc">&#39;A&#39;</span> <span class="o">+</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="mi">26</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   
