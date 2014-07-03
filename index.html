@@ -7,20 +7,13 @@
 
 	<meta name="author" content="Takaaki Kawakami">
 
-<meta name="description" content="Dismissing the Keyboard SwiftBNRDetailViewController.swift 1
+<meta name="description" content="Turning Touches into Lines SwiftBNRLine.swift 1
 2
 3
 4
 5
 6
-7
-8
-9
-10
-11
-12
-13
-import UIKit class SwiftBNRDetailViewController: &hellip;"> <meta name="keywords" content="">
+import UIKit class SwiftBNRLine: NSObject { var begin: CGPoint = CGPoint() var end: &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -60,6 +53,254 @@ import UIKit class SwiftBNRDetailViewController: &hellip;"> <meta name="keywords
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2014/07/03/chapter-12-touch-events-and-uiresponder-part1/">
+			
+				Chapter 12 Touch Events and UIResponder Part1</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-03T18:38:47+09:00" pubdate data-updated="true">Jul 3<span>rd</span>, 2014</time></div>
+	</header>
+	<div class="entry-content">
+		<h2>Turning Touches into Lines</h2>
+
+<p>SwiftBNRLine.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRLine:</span> <span class="n">NSObject</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">begin:</span> <span class="n">CGPoint</span> <span class="o">=</span> <span class="n">CGPoint</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">end:</span> <span class="n">CGPoint</span> <span class="o">=</span> <span class="n">CGPoint</span><span class="p">()</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>SwiftBNRDrawView.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRDrawView:</span> <span class="n">UIView</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">currentLine:</span> <span class="n">SwiftBNRLine</span><span class="o">?</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">finishedLines:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">SwiftBNRLine</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">SwiftBNRLine</span><span class="p">[]()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">CGRect</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">super</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">frame</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">grayColor</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">strokeLine</span><span class="p">(</span><span class="nl">line:</span> <span class="n">SwiftBNRLine</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">bp</span> <span class="o">=</span> <span class="n">UIBezierPath</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">bp</span><span class="p">.</span><span class="n">lineWidth</span>  <span class="o">=</span> <span class="mi">10</span>
+</span><span class='line'>        <span class="n">bp</span><span class="p">.</span><span class="n">lineCapStyle</span> <span class="o">=</span> <span class="n">kCGLineCapRound</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">bp</span><span class="p">.</span><span class="n">moveToPoint</span><span class="p">(</span><span class="n">line</span><span class="p">.</span><span class="n">begin</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">bp</span><span class="p">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="n">line</span><span class="p">.</span><span class="n">end</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">bp</span><span class="p">.</span><span class="n">stroke</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">drawRect</span><span class="p">(</span><span class="nl">rect:</span> <span class="n">CGRect</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">UIColor</span><span class="p">.</span><span class="n">blackColor</span><span class="p">().</span><span class="n">set</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">line</span> <span class="k">in</span> <span class="n">self</span><span class="p">.</span><span class="n">finishedLines</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">strokeLine</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">currentLine</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">UIColor</span><span class="p">.</span><span class="n">redColor</span><span class="p">().</span><span class="n">set</span><span class="p">()</span>
+</span><span class='line'>            <span class="n">strokeLine</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">currentLine</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">touchesBegan</span><span class="p">(</span><span class="nl">touches:</span> <span class="n">NSSet</span><span class="o">!</span><span class="p">,</span> <span class="n">withEvent</span> <span class="nl">event:</span> <span class="n">UIEvent</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">t</span> <span class="o">=</span> <span class="n">touches</span><span class="p">.</span><span class="n">anyObject</span><span class="p">()</span> <span class="n">as</span> <span class="n">UITouch</span>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">location:</span> <span class="n">CGPoint</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">locationInView</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="o">!</span><span class="n">self</span><span class="p">.</span><span class="n">currentLine</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">currentLine</span> <span class="o">=</span> <span class="n">SwiftBNRLine</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">currentLine</span><span class="o">!</span><span class="p">.</span><span class="n">begin</span> <span class="o">=</span> <span class="n">location</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">currentLine</span><span class="o">!</span><span class="p">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">location</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">setNeedsDisplay</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">touchesMoved</span><span class="p">(</span><span class="nl">touches:</span> <span class="n">NSSet</span><span class="o">!</span><span class="p">,</span> <span class="n">withEvent</span> <span class="nl">event:</span> <span class="n">UIEvent</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">t</span> <span class="o">=</span> <span class="n">touches</span><span class="p">.</span><span class="n">anyObject</span><span class="p">()</span> <span class="n">as</span> <span class="n">UITouch</span>
+</span><span class='line'>        <span class="n">var</span> <span class="nl">location:</span> <span class="n">CGPoint</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">locationInView</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">currentLine</span><span class="o">!</span><span class="p">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">location</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">setNeedsDisplay</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">touchesEnded</span><span class="p">(</span><span class="nl">touches:</span> <span class="n">NSSet</span><span class="o">!</span><span class="p">,</span> <span class="n">withEvent</span> <span class="nl">event:</span> <span class="n">UIEvent</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">finishedLines</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">currentLine</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">currentLine</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">setNeedsDisplay</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>SwiftBNRDrawViewController.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRDrawViewController:</span> <span class="n">UIViewController</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">loadView</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">SwiftBNRDrawView</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">CGRectZero</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>AppDelegate.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">UIApplicationMain</span>
+</span><span class='line'><span class="n">class</span> <span class="nl">AppDelegate:</span> <span class="n">UIResponder</span><span class="p">,</span> <span class="n">UIApplicationDelegate</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">window:</span> <span class="n">UIWindow</span><span class="o">?</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">application</span><span class="p">(</span><span class="nl">application:</span> <span class="n">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nl">launchOptions:</span> <span class="n">NSDictionary</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">UIWindow</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">UIScreen</span><span class="p">.</span><span class="n">mainScreen</span><span class="p">().</span><span class="n">bounds</span><span class="p">)</span>
+</span><span class='line'>        <span class="c1">// Override point for customization after application launch.</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">dvc</span> <span class="o">=</span> <span class="n">SwiftBNRDrawViewController</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">dvc</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">whiteColor</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">makeKeyAndVisible</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">true</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -1558,110 +1799,6 @@ import UIKit class SwiftBNRDetailViewController: &hellip;"> <meta name="keywords
 </span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;SwiftBNRHypnosisViewController loaded its view.&quot;</span><span class="p">)</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<header>
-		<h2 class="title">
-			
-			<a href="/blog/2014/06/20/chapter-6-view-controllers-part5/">
-			
-				Chapter 6 View Controllers Part5</a>
-		</h2>
-		<div class="meta date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-20T13:29:16+09:00" pubdate data-updated="true">Jun 20<span>th</span>, 2014</time></div>
-	</header>
-	<div class="entry-content">
-		<h2>Adding a Local Notification</h2>
-
-<p>SwiftBNRReminderViewController.swift</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRReminderViewController:</span> <span class="n">UIViewController</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">@</span><span class="kt">IBAction</span> <span class="n">func</span> <span class="n">addReminder</span><span class="p">(</span><span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">var</span> <span class="nl">date:</span> <span class="n">NSDate</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">datePicker</span><span class="p">.</span><span class="n">date</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;Setting a reminder for \(date)&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">var</span> <span class="n">note</span> <span class="o">=</span> <span class="n">UILocalNotification</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">note</span><span class="p">.</span><span class="n">alertBody</span> <span class="o">=</span> <span class="s">&quot;Hypnotise me!&quot;</span>
-</span><span class='line'>        <span class="n">note</span><span class="p">.</span><span class="n">fireDate</span> <span class="o">=</span> <span class="n">date</span>
-</span><span class='line'>        <span class="n">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">().</span><span class="n">scheduleLocalNotification</span><span class="p">(</span><span class="n">note</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>AppDelegate.swift</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">@</span><span class="n">UIApplicationMain</span>
-</span><span class='line'><span class="n">class</span> <span class="nl">AppDelegate:</span> <span class="n">UIResponder</span><span class="p">,</span> <span class="n">UIApplicationDelegate</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">var</span> <span class="nl">window:</span> <span class="n">UIWindow</span><span class="o">?</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">func</span> <span class="n">application</span><span class="p">(</span><span class="nl">application:</span> <span class="n">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nl">launchOptions:</span> <span class="n">NSDictionary</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">UIWindow</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">UIScreen</span><span class="p">.</span><span class="n">mainScreen</span><span class="p">().</span><span class="n">bounds</span><span class="p">)</span>
-</span><span class='line'>        <span class="c1">// Override point for customization after application launch.</span>
-</span><span class='line'>        <span class="n">application</span><span class="p">.</span><span class="n">registerUserNotificationSettings</span><span class="p">(</span><span class="n">UIUserNotificationSettings</span><span class="p">(</span><span class="nl">forTypes:</span> <span class="n">UIUserNotificationType</span><span class="p">.</span><span class="n">Sound</span> <span class="o">|</span> <span class="n">UIUserNotificationType</span><span class="p">.</span><span class="n">Alert</span> <span class="o">|</span>
-</span><span class='line'>            <span class="n">UIUserNotificationType</span><span class="p">.</span><span class="n">Badge</span><span class="p">,</span> <span class="nl">categories:</span> <span class="nb">nil</span>
-</span><span class='line'>            <span class="p">))</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
