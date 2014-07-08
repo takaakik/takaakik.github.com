@@ -7,7 +7,7 @@
 
 	<meta name="author" content="Takaaki Kawakami">
 
-<meta name="description" content="Handling multiple touches SwiftBNRDrawView.swift 1
+<meta name="description" content="Detecting Taps with UITapGestureRecognizer SwiftBNRDrawView.swift 1
 2
 3
 4
@@ -35,14 +35,7 @@
 26
 27
 28
-29
-30
-31
-32
-33
-34
-35
-36 &hellip;"> <meta name="keywords" content="">
+29 &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -82,6 +75,101 @@
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2014/07/08/chapter-13-uigesturerecognizer-and-uimenucontroller-part1/">
+			
+				Chapter 13 UIGestureRecognizer and UIMenuController Part1</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-08T13:26:28+09:00" pubdate data-updated="true">Jul 8<span>th</span>, 2014</time></div>
+	</header>
+	<div class="entry-content">
+		<h2>Detecting Taps with UITapGestureRecognizer</h2>
+
+<p>SwiftBNRDrawView.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRDrawView:</span> <span class="n">UIView</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">linesInProgress:</span> <span class="n">Dictionary</span><span class="o">&lt;</span><span class="n">NSValue</span><span class="p">,</span> <span class="n">SwiftBNRLine</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">Dictionary</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">finishedLines:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">SwiftBNRLine</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">SwiftBNRLine</span><span class="p">[]()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">CGRect</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">super</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">frame</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">grayColor</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">multipleTouchEnabled</span> <span class="o">=</span> <span class="n">true</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">doubleTapRecognizer</span> <span class="o">=</span> <span class="n">UITapGestureRecognizer</span><span class="p">(</span><span class="nl">target:</span> <span class="n">self</span><span class="p">,</span> <span class="nl">action:</span> <span class="s">&quot;doubleTap:&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">doubleTapRecognizer</span><span class="p">.</span><span class="n">numberOfTapsRequired</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span class='line'>        <span class="n">doubleTapRecognizer</span><span class="p">.</span><span class="n">delaysTouchesBegan</span> <span class="o">=</span> <span class="n">true</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">doubleTapRecognizer</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">doubleTap</span><span class="p">(</span><span class="nl">gestureRecognizer:</span> <span class="n">UIGestureRecognizer</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;Recognized Double Tap&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">linesInProgress</span> <span class="o">=</span> <span class="p">[</span><span class="o">:</span><span class="p">]</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">finishedLines</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">setNeedsDisplay</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -1774,149 +1862,6 @@
 </span><span class='line'>        <span class="n">var</span> <span class="n">item</span> <span class="o">=</span> <span class="n">SwiftBNRItem</span><span class="p">.</span><span class="n">randomItem</span><span class="p">()</span>
 </span><span class='line'>        <span class="n">_privateItems</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 </span><span class='line'>        <span class="k">return</span> <span class="n">item</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<header>
-		<h2 class="title">
-			
-			<a href="/blog/2014/06/20/chapter-7-delegation-and-text-input-part1/">
-			
-				Chapter 7 Delegation and Text Input Part1</a>
-		</h2>
-		<div class="meta date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-20T18:34:09+09:00" pubdate data-updated="true">Jun 20<span>th</span>, 2014</time></div>
-	</header>
-	<div class="entry-content">
-		<h2>Adding the Labels to the Screen</h2>
-
-<h2>Motion Effects</h2>
-
-<p>SwiftBNRHypnosisViewController.swift</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRHypnosisViewController:</span> <span class="n">UIViewController</span><span class="p">,</span> <span class="n">UITextFieldDelegate</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">func</span> <span class="n">textFieldShouldReturn</span><span class="p">(</span><span class="nl">textField:</span> <span class="n">UITextField</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;\(textField.text)&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">drawHypnoticMessage</span><span class="p">(</span><span class="n">textField</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">textField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-</span><span class='line'>        <span class="n">textField</span><span class="p">.</span><span class="n">resignFirstResponder</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">return</span> <span class="n">true</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">func</span> <span class="n">drawHypnoticMessage</span><span class="p">(</span><span class="nl">message:</span> <span class="n">NSString</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">var</span> <span class="n">messageLabel</span> <span class="o">=</span> <span class="n">UILabel</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">clearColor</span><span class="p">()</span>
-</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">whiteColor</span><span class="p">();</span>
-</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">message</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">sizeToFit</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">var</span> <span class="n">width</span> <span class="o">=</span> <span class="n">UInt32</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">messageLabel</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">var</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">width</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">var</span> <span class="n">height</span> <span class="o">=</span> <span class="n">UInt32</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">messageLabel</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
-</span><span class='line'>            <span class="n">var</span> <span class="n">y</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">arc4random</span><span class="p">()</span> <span class="o">%</span> <span class="n">height</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">var</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">messageLabel</span><span class="p">.</span><span class="n">frame</span>
-</span><span class='line'>            <span class="n">frame</span><span class="p">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
-</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">messageLabel</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">var</span> <span class="n">motionEffect</span> <span class="o">=</span> <span class="n">UIInterpolatingMotionEffect</span><span class="p">(</span><span class="nl">keyPath:</span> <span class="s">&quot;center.x&quot;</span><span class="p">,</span> <span class="nl">type:</span> <span class="n">UIInterpolatingMotionEffectType</span><span class="p">.</span><span class="n">TiltAlongHorizontalAxis</span><span class="p">)</span>
-</span><span class='line'>            <span class="n">motionEffect</span><span class="p">.</span><span class="n">minimumRelativeValue</span> <span class="o">=</span> <span class="o">-</span><span class="mi">25</span><span class="p">;</span>
-</span><span class='line'>            <span class="n">motionEffect</span><span class="p">.</span><span class="n">maximumRelativeValue</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
-</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">addMotionEffect</span><span class="p">(</span><span class="n">motionEffect</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="n">motionEffect</span> <span class="o">=</span> <span class="n">UIInterpolatingMotionEffect</span><span class="p">(</span><span class="nl">keyPath:</span> <span class="s">&quot;center.y&quot;</span><span class="p">,</span> <span class="nl">type:</span> <span class="n">UIInterpolatingMotionEffectType</span><span class="p">.</span><span class="n">TiltAlongVerticalAxis</span><span class="p">)</span>
-</span><span class='line'>            <span class="n">motionEffect</span><span class="p">.</span><span class="n">minimumRelativeValue</span> <span class="o">=</span> <span class="o">-</span><span class="mi">25</span><span class="p">;</span>
-</span><span class='line'>            <span class="n">motionEffect</span><span class="p">.</span><span class="n">maximumRelativeValue</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
-</span><span class='line'>            <span class="n">messageLabel</span><span class="p">.</span><span class="n">addMotionEffect</span><span class="p">(</span><span class="n">motionEffect</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>

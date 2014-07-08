@@ -7,7 +7,7 @@
 
 	<meta name="author" content="Takaaki Kawakami">
 
-<meta name="description" content="Drawing concentric circles SwiftBNRHypnosisView.swift 1
+<meta name="description" content="Bronze Challenge: Draw an Image SwiftBNRHypnosisView.swift 1
 2
 3
 4
@@ -27,20 +27,7 @@
 18
 19
 20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34 &hellip;"> <meta name="keywords" content="">
+class SwiftBNRHypnosisView: UIView &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +67,83 @@
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2014/06/18/chapter-4-views-and-the-view-hierarchy-part3/">
+			
+				Chapter 4: Views and the View Hierarchy Part3</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-18T16:41:44+09:00" pubdate data-updated="true">Jun 18<span>th</span>, 2014</time></div>
+	</header>
+	<div class="entry-content">
+		<h2>Bronze Challenge: Draw an Image</h2>
+
+<p>SwiftBNRHypnosisView.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRHypnosisView:</span> <span class="n">UIView</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">drawRect</span><span class="p">(</span><span class="nl">rect:</span> <span class="n">CGRect</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">path</span><span class="p">.</span><span class="n">stroke</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">logoImage</span> <span class="o">=</span> <span class="n">UIImage</span><span class="p">(</span><span class="nl">named:</span> <span class="s">&quot;logo.png&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">logoImage</span><span class="p">.</span><span class="n">drawInRect</span><span class="p">(</span><span class="n">CGRectMake</span><span class="p">(</span><span class="n">center</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="p">(</span><span class="n">center</span><span class="p">.</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+</span><span class='line'>                                        <span class="n">center</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">center</span><span class="p">.</span><span class="n">y</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
+</span><span class='line'>                                        <span class="n">center</span><span class="p">.</span><span class="n">x</span><span class="p">,</span>
+</span><span class='line'>                                        <span class="n">center</span><span class="p">.</span><span class="n">y</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -1074,169 +1138,12 @@ Wrote some code for verification.</p>
 </article>
 
 
-    <article class="post">
-	<header>
-		<h2 class="title">
-			
-			<a href="/blog/2014/06/12/ios-programming-the-big-nerd-ranch-guide-in-swift/">
-			
-				iOS Programming: The Big Nerd Ranch Guide in Swift</a>
-		</h2>
-		<div class="meta date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-12T18:42:33+09:00" pubdate data-updated="true">Jun 12<span>th</span>, 2014</time></div>
-	</header>
-	<div class="entry-content">
-		<p><em>iOS Programming:The Big Nerd Ranch Guide, 4th Edition</em> seems to have a good reputation on some book reviews.
-I&rsquo;m translating some example codes in Objective-C to Apple&rsquo;s new programming language Swift.</p>
-
-<p>First chapter: Quiz app</p>
-
-<p>AppDelegate.swift in Swift</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">class</span> <span class="nl">AppDelegate:</span> <span class="n">UIResponder</span><span class="p">,</span> <span class="n">UIApplicationDelegate</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">var</span> <span class="nl">window:</span> <span class="n">UIWindow</span><span class="o">?</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">func</span> <span class="n">application</span><span class="p">(</span><span class="nl">application:</span> <span class="n">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nl">launchOptions:</span> <span class="n">NSDictionary</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">UIWindow</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">UIScreen</span><span class="p">.</span><span class="n">mainScreen</span><span class="p">().</span><span class="n">bounds</span><span class="p">)</span>
-</span><span class='line'>    <span class="c1">// Override point for customization after application launch.</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">var</span> <span class="n">appBundle</span> <span class="o">=</span> <span class="n">NSBundle</span><span class="p">.</span><span class="n">mainBundle</span><span class="p">()</span>
-</span><span class='line'>    <span class="n">var</span> <span class="nl">controller:</span> <span class="n">QuizViewController</span> <span class="o">=</span> <span class="n">QuizViewController</span><span class="p">(</span><span class="nl">nibName:</span> <span class="s">&quot;QuizViewController&quot;</span><span class="p">,</span> <span class="nl">bundle:</span> <span class="n">appBundle</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">controller</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">whiteColor</span><span class="p">()</span>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">makeKeyAndVisible</span><span class="p">()</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">true</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>QuizViewController.swift</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">class</span> <span class="nl">QuizViewController:</span> <span class="n">UIViewController</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">var</span> <span class="n">currentQuestionIndex</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>    <span class="n">var</span> <span class="n">questions</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="o">:</span> <span class="s">&quot;From what awamori is made?&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span> <span class="s">&quot;What is 7+8?&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">:</span> <span class="s">&quot;What is the capital of Hyogo?&quot;</span><span class="p">,]</span>
-</span><span class='line'>    <span class="n">var</span> <span class="n">answers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="o">:</span> <span class="s">&quot;Sugar canes&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span> <span class="s">&quot;15&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">:</span> <span class="s">&quot;Kobe&quot;</span><span class="p">,]</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">@</span><span class="kt">IBOutlet</span> <span class="n">var</span> <span class="nl">questionLabel:</span> <span class="n">UILabel</span>
-</span><span class='line'>    <span class="err">@</span><span class="kt">IBOutlet</span> <span class="n">var</span> <span class="nl">answerLabel:</span> <span class="n">UILabel</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">@</span><span class="kt">IBAction</span> <span class="n">func</span> <span class="n">showQuestion</span><span class="p">(</span><span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// Step to the next question</span>
-</span><span class='line'>        <span class="n">currentQuestionIndex</span><span class="o">++</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// Am I past the last question?</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">currentQuestionIndex</span> <span class="o">==</span> <span class="n">questions</span><span class="p">.</span><span class="n">count</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="c1">// Go back to the first question</span>
-</span><span class='line'>            <span class="n">currentQuestionIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// Get the string at that index in the question array</span>
-</span><span class='line'>        <span class="n">var</span> <span class="n">question</span> <span class="o">=</span> <span class="n">questions</span><span class="p">[</span><span class="n">currentQuestionIndex</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// Display the string in the question label</span>
-</span><span class='line'>        <span class="n">questionLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">question</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// Reset th answer label</span>
-</span><span class='line'>        <span class="n">answerLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&quot;???&quot;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">@</span><span class="kt">IBAction</span> <span class="n">func</span> <span class="n">showAnswer</span><span class="p">(</span><span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// What is the answer to the current question?</span>
-</span><span class='line'>        <span class="n">var</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">answers</span><span class="p">[</span><span class="n">currentQuestionIndex</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// Display it in the answer label</span>
-</span><span class='line'>        <span class="n">answerLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">answer</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
-
     <nav id="pagenavi">
         
             <a href="/blog/page/2/" class="prev">Previous</a>
         
+        
+            <a href="/blog/page/4/" class="next">Next</a>
         
     </nav>
 
