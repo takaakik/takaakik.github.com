@@ -1,0 +1,331 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>Chapter 13 UIGestureRecognizer and UIMenuController part2  | GIGO</title>
+
+	<meta name="author" content="Takaaki Kawakami">
+
+<meta name="description" content="Multiple Gesture Recognizers SwiftBNRDrawView.swift 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35 &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="GIGO" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">GIGO</a></h1>
+<span class="tagline">Garbage in, garbage out.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<header>
+		<h2 class="title">Chapter 13 UIGestureRecognizer and UIMenuController Part2</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-10T13:58:14+09:00" pubdate data-updated="true">Jul 10<span>th</span>, 2014</time></div>
+	</header>
+	<div class="entry-content"><h2>Multiple Gesture Recognizers</h2>
+
+<p>SwiftBNRDrawView.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRDrawView:</span> <span class="n">UIView</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">linesInProgress:</span> <span class="n">Dictionary</span><span class="o">&lt;</span><span class="n">NSValue</span><span class="p">,</span> <span class="n">SwiftBNRLine</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">Dictionary</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">finishedLines:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">SwiftBNRLine</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">SwiftBNRLine</span><span class="p">[]()</span>
+</span><span class='line'>    <span class="n">weak</span> <span class="n">var</span> <span class="nl">selectedLine:</span> <span class="n">SwiftBNRLine</span><span class="o">?</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">CGRect</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">super</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">frame</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">grayColor</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">multipleTouchEnabled</span> <span class="o">=</span> <span class="n">true</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">doubleTapRecognizer</span> <span class="o">=</span> <span class="n">UITapGestureRecognizer</span><span class="p">(</span><span class="nl">target:</span> <span class="n">self</span><span class="p">,</span> <span class="nl">action:</span> <span class="s">&quot;doubleTap:&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">doubleTapRecognizer</span><span class="p">.</span><span class="n">numberOfTapsRequired</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span class='line'>        <span class="n">doubleTapRecognizer</span><span class="p">.</span><span class="n">delaysTouchesBegan</span> <span class="o">=</span> <span class="n">true</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">doubleTapRecognizer</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">tapRecognizer</span> <span class="o">=</span> <span class="n">UITapGestureRecognizer</span><span class="p">(</span><span class="nl">target:</span> <span class="n">self</span><span class="p">,</span> <span class="nl">action:</span> <span class="s">&quot;tap:&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">tapRecognizer</span><span class="p">.</span><span class="n">delaysTouchesBegan</span> <span class="o">=</span> <span class="n">true</span>
+</span><span class='line'>        <span class="n">tapRecognizer</span><span class="p">.</span><span class="n">requireGestureRecognizerToFail</span><span class="p">(</span><span class="n">doubleTapRecognizer</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">tapRecognizer</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">drawRect</span><span class="p">(</span><span class="nl">rect:</span> <span class="n">CGRect</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">UIColor</span><span class="p">.</span><span class="n">blackColor</span><span class="p">().</span><span class="n">set</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">line</span> <span class="k">in</span> <span class="n">self</span><span class="p">.</span><span class="n">finishedLines</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">strokeLine</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">UIColor</span><span class="p">.</span><span class="n">redColor</span><span class="p">().</span><span class="n">set</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">line</span> <span class="k">in</span> <span class="n">self</span><span class="p">.</span><span class="n">linesInProgress</span><span class="p">.</span><span class="n">values</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">strokeLine</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">selectedLine</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">UIColor</span><span class="p">.</span><span class="n">greenColor</span><span class="p">().</span><span class="n">set</span><span class="p">()</span>
+</span><span class='line'>            <span class="n">strokeLine</span><span class="p">(</span><span class="n">selectedLine</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">doubleTap</span><span class="p">(</span><span class="nl">gr:</span> <span class="n">UIGestureRecognizer</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;Recognized Double Tap&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">linesInProgress</span> <span class="o">=</span> <span class="p">[</span><span class="o">:</span><span class="p">]</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">finishedLines</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// however set to weak ref, selectedLine does not disappear without a line below...</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">selectedLine</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">setNeedsDisplay</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">tap</span><span class="p">(</span><span class="nl">gr:</span> <span class="n">UIGestureRecognizer</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;Recognized tap&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">point</span> <span class="o">=</span> <span class="n">gr</span><span class="p">.</span><span class="n">locationInView</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">selectedLine</span> <span class="o">=</span> <span class="n">lineAtPoint</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">setNeedsDisplay</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">lineAtPoint</span><span class="p">(</span><span class="nl">p:</span> <span class="n">CGPoint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SwiftBNRLine</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">l</span> <span class="k">in</span> <span class="n">self</span><span class="p">.</span><span class="n">finishedLines</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">var</span> <span class="n">start</span> <span class="o">=</span> <span class="n">l</span><span class="p">.</span><span class="n">begin</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">var</span> <span class="n">end</span> <span class="o">=</span> <span class="n">l</span><span class="p">.</span><span class="n">end</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">t</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">;</span> <span class="n">t</span> <span class="o">+=</span> <span class="mf">0.05</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">var</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Double</span><span class="p">(</span><span class="n">start</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">Double</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Double</span><span class="p">(</span><span class="n">end</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">Double</span><span class="p">(</span><span class="n">start</span><span class="p">.</span><span class="n">x</span><span class="p">))</span>
+</span><span class='line'>                <span class="n">var</span> <span class="n">y</span> <span class="o">=</span> <span class="n">Double</span><span class="p">(</span><span class="n">start</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">Double</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Double</span><span class="p">(</span><span class="n">end</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">Double</span><span class="p">(</span><span class="n">start</span><span class="p">.</span><span class="n">y</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="k">if</span> <span class="p">(</span><span class="n">hypot</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">Double</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span> <span class="o">-</span> <span class="n">Double</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">20.0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">return</span> <span class="n">l</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+	
+
+</article>
+
+	
+	<div class="share">
+		<ul>
+			<li>
+  <a href="https://twitter.com/intent/tweet?text=Chapter 13 UIGestureRecognizer and UIMenuController part2 by @&url=http://takaakik.github.io/blog/2014/07/10/chapter-13-uigesturerecognizer-and-uimenucontroller-part2/" title="Share Chapter 13 UIGestureRecognizer and UIMenuController part2 on Twitter">
+    <img src="/images/social/twitter.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://www.facebook.com/sharer.php?u=http://takaakik.github.io/blog/2014/07/10/chapter-13-uigesturerecognizer-and-uimenucontroller-part2/" title="Share Chapter 13 UIGestureRecognizer and UIMenuController part2 on Facebook">
+    <img src="/images/social/facebook.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://plus.google.com/share?url=http://takaakik.github.io/blog/2014/07/10/chapter-13-uigesturerecognizer-and-uimenucontroller-part2/" title="Share Chapter 13 UIGestureRecognizer and UIMenuController part2 on Google Plus">
+    <img src="/images/social/google.png" />
+  </a>
+</li>
+
+		</ul>
+	</div>
+
+
+
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    Takaaki Kawakami
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-51905939-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+
+</body>
+</html>
