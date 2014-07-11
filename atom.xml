@@ -4,13 +4,152 @@
   <title><![CDATA[GIGO]]></title>
   <link href="http://takaakik.github.io/atom.xml" rel="self"/>
   <link href="http://takaakik.github.io/"/>
-  <updated>2014-07-10T14:02:49+09:00</updated>
+  <updated>2014-07-11T18:40:06+09:00</updated>
   <id>http://takaakik.github.io/</id>
   <author>
     <name><![CDATA[Takaaki Kawakami]]></name>
     
   </author>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Chapter 13 UIGestureRecognizer and UIMenuController part3]]></title>
+    <link href="http://takaakik.github.io/blog/2014/07/11/chapter-13-uigesturerecognizer-and-uimenucontroller-part3/"/>
+    <updated>2014-07-11T18:26:56+09:00</updated>
+    <id>http://takaakik.github.io/blog/2014/07/11/chapter-13-uigesturerecognizer-and-uimenucontroller-part3</id>
+    <content type="html"><![CDATA[<h2>UIMenuController</h2>
+
+<p>SwiftBNRDrawView.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">extension</span> <span class="n">Array</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">indexOfObject</span><span class="p">(</span><span class="n">object</span> <span class="o">:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NSInteger</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">(</span><span class="n">self</span> <span class="n">as</span> <span class="n">NSArray</span><span class="p">).</span><span class="n">indexOfObject</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">mutating</span> <span class="n">func</span> <span class="n">removeObject</span><span class="p">(</span><span class="n">object</span> <span class="o">:</span> <span class="n">AnyObject</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">index</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">indexOfObject</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">!=</span> <span class="n">NSNotFound</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">removeAtIndex</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRDrawView:</span> <span class="n">UIView</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">tap</span><span class="p">(</span><span class="nl">gr:</span> <span class="n">UIGestureRecognizer</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;Recognized tap&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">point</span> <span class="o">=</span> <span class="n">gr</span><span class="p">.</span><span class="n">locationInView</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">selectedLine</span> <span class="o">=</span> <span class="n">lineAtPoint</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">selectedLine</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">println</span><span class="p">(</span><span class="s">&quot;selectedLine found&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">becomeFirstResponder</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">let</span> <span class="n">menu</span> <span class="o">=</span> <span class="n">UIMenuController</span><span class="p">.</span><span class="n">sharedMenuController</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">let</span> <span class="n">deleteItem</span> <span class="o">=</span> <span class="n">UIMenuItem</span><span class="p">(</span><span class="nl">title:</span> <span class="s">&quot;Delete&quot;</span><span class="p">,</span> <span class="nl">action:</span> <span class="s">&quot;deleteLine:&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">menu</span><span class="p">.</span><span class="n">menuItems</span> <span class="o">=</span> <span class="p">[</span><span class="n">deleteItem</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">menu</span><span class="p">.</span><span class="n">setTargetRect</span><span class="p">(</span><span class="n">CGRectMake</span><span class="p">(</span><span class="n">point</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="nl">inView:</span> <span class="n">self</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">menu</span><span class="p">.</span><span class="n">setMenuVisible</span><span class="p">(</span><span class="n">true</span><span class="p">,</span> <span class="nl">animated:</span> <span class="n">true</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">println</span><span class="p">(</span><span class="s">&quot;selectedLine not found&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">UIMenuController</span><span class="p">.</span><span class="n">sharedMenuController</span><span class="p">().</span><span class="n">setMenuVisible</span><span class="p">(</span><span class="n">false</span><span class="p">,</span> <span class="nl">animated:</span> <span class="n">true</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">setNeedsDisplay</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">canBecomeFirstResponder</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">true</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">deleteLine</span><span class="p">(</span><span class="nl">sender:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;deleteLine&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">finishedLines</span><span class="p">.</span><span class="n">removeObject</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">selectedLine</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">selectedLine</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">setNeedsDisplay</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>extension Array part is from
+<a href="http://ericasadun.com/2014/06/05/swift-objc-like-array-index/">Swift: ObjC-like Array index</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Chapter 13 UIGestureRecognizer and UIMenuController part2]]></title>
@@ -2429,70 +2568,6 @@
 </span><span class='line'>        <span class="n">screenRect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">screenRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
 </span><span class='line'>        <span class="n">var</span> <span class="nl">anotherView:</span> <span class="n">SwiftBNRHypnosisView</span> <span class="o">=</span> <span class="n">SwiftBNRHypnosisView</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">screenRect</span><span class="p">)</span>
 </span><span class='line'>        <span class="n">scrollView</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">anotherView</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">scrollView</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">bigRect</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">whiteColor</span><span class="p">()</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">makeKeyAndVisible</span><span class="p">()</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">true</span>
-</span><span class='line'>    <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Chapter 5 Views: Redrawing and UIScrollView part2]]></title>
-    <link href="http://takaakik.github.io/blog/2014/06/18/chapter-5-views-redrawing-and-uiscrollview-part2/"/>
-    <updated>2014-06-18T17:33:37+09:00</updated>
-    <id>http://takaakik.github.io/blog/2014/06/18/chapter-5-views-redrawing-and-uiscrollview-part2</id>
-    <content type="html"><![CDATA[<h2>Using UIScrollView</h2>
-
-<p>AppDelegate.swift</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">class</span> <span class="nl">AppDelegate:</span> <span class="n">UIResponder</span><span class="p">,</span> <span class="n">UIApplicationDelegate</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">var</span> <span class="nl">window:</span> <span class="n">UIWindow</span><span class="o">?</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">func</span> <span class="n">application</span><span class="p">(</span><span class="nl">application:</span> <span class="n">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nl">launchOptions:</span> <span class="n">NSDictionary</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">UIWindow</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">UIScreen</span><span class="p">.</span><span class="n">mainScreen</span><span class="p">().</span><span class="n">bounds</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">var</span> <span class="nl">screenRect:</span> <span class="n">CGRect</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">bounds</span>
-</span><span class='line'>        <span class="n">var</span> <span class="nl">bigRect:</span> <span class="n">CGRect</span> <span class="o">=</span> <span class="n">screenRect</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">bigRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">*=</span> <span class="mf">2.0</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">bigRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">*=</span> <span class="mf">2.0</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">var</span> <span class="nl">scrollView:</span> <span class="n">UIScrollView</span> <span class="o">=</span> <span class="n">UIScrollView</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">screenRect</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="o">!</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">scrollView</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">var</span> <span class="nl">hynosisView:</span> <span class="n">SwiftBNRHypnosisView</span> <span class="o">=</span> <span class="n">SwiftBNRHypnosisView</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">bigRect</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">scrollView</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">hynosisView</span><span class="p">)</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="n">scrollView</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">bigRect</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
 </span><span class='line'>
