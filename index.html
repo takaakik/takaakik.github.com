@@ -7,7 +7,7 @@
 
 	<meta name="author" content="Takaaki Kawakami">
 
-<meta name="description" content="UILongPressGestureRecognizer SwiftBNRDrawView.swift 1
+<meta name="description" content="UIPanGestureRecognizer and Simultaneous Recognizers SwiftBNRDrawView.swift 1
 2
 3
 4
@@ -33,15 +33,7 @@
 24
 25
 26
-27
-28
-29
-30
-31
-32
-33
-34
-35 &hellip;"> <meta name="keywords" content="">
+27 &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -81,6 +73,171 @@
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2014/07/15/chapter-13-uigesturerecognizer-and-uimenucontroller-part5/">
+			
+				Chapter 13 UIGestureRecognizer and UIMenuController Part5</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-15T16:21:33+09:00" pubdate data-updated="true">Jul 15<span>th</span>, 2014</time></div>
+	</header>
+	<div class="entry-content">
+		<h2>UIPanGestureRecognizer and Simultaneous Recognizers</h2>
+
+<p>SwiftBNRDrawView.swift</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRDrawView:</span> <span class="n">UIView</span><span class="p">,</span> <span class="n">UIGestureRecognizerDelegate</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">moveRecognizer:</span> <span class="n">UIPanGestureRecognizer</span> <span class="o">=</span> <span class="n">UIPanGestureRecognizer</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">linesInProgress:</span> <span class="n">Dictionary</span><span class="o">&lt;</span><span class="n">NSValue</span><span class="p">,</span> <span class="n">SwiftBNRLine</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">Dictionary</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">finishedLines:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">SwiftBNRLine</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">SwiftBNRLine</span><span class="p">[]()</span>
+</span><span class='line'>    <span class="n">weak</span> <span class="n">var</span> <span class="nl">selectedLine:</span> <span class="n">SwiftBNRLine</span><span class="o">?</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">CGRect</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">super</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">frame:</span> <span class="n">frame</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">UIColor</span><span class="p">.</span><span class="n">grayColor</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">multipleTouchEnabled</span> <span class="o">=</span> <span class="n">true</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">doubleTapRecognizer</span> <span class="o">=</span> <span class="n">UITapGestureRecognizer</span><span class="p">(</span><span class="nl">target:</span> <span class="n">self</span><span class="p">,</span> <span class="nl">action:</span> <span class="s">&quot;doubleTap:&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">doubleTapRecognizer</span><span class="p">.</span><span class="n">numberOfTapsRequired</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span class='line'>        <span class="n">doubleTapRecognizer</span><span class="p">.</span><span class="n">delaysTouchesBegan</span> <span class="o">=</span> <span class="n">true</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">doubleTapRecognizer</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">tapRecognizer</span> <span class="o">=</span> <span class="n">UITapGestureRecognizer</span><span class="p">(</span><span class="nl">target:</span> <span class="n">self</span><span class="p">,</span> <span class="nl">action:</span> <span class="s">&quot;tap:&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">tapRecognizer</span><span class="p">.</span><span class="n">delaysTouchesBegan</span> <span class="o">=</span> <span class="n">true</span>
+</span><span class='line'>        <span class="n">tapRecognizer</span><span class="p">.</span><span class="n">requireGestureRecognizerToFail</span><span class="p">(</span><span class="n">doubleTapRecognizer</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">tapRecognizer</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">let</span> <span class="n">pressRecognizer</span> <span class="o">=</span> <span class="n">UILongPressGestureRecognizer</span><span class="p">(</span><span class="nl">target:</span><span class="n">self</span><span class="p">,</span> <span class="nl">action:</span> <span class="s">&quot;longPress:&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">pressRecognizer</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">moveRecognizer</span> <span class="o">=</span> <span class="n">UIPanGestureRecognizer</span><span class="p">(</span><span class="nl">target:</span> <span class="n">self</span><span class="p">,</span> <span class="nl">action:</span> <span class="s">&quot;moveLine:&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">moveRecognizer</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">moveRecognizer</span><span class="p">.</span><span class="n">cancelsTouchesInView</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">moveRecognizer</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="nl">gestureRecognizer:</span> <span class="n">UIGestureRecognizer</span><span class="o">!</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">shouldRecognizeSimultaneouslyWithGestureRecognizer</span> <span class="nl">otherGestureRecognizer:</span> <span class="n">UIGestureRecognizer</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">gestureRecognizer</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">moveRecognizer</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">true</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">false</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">func</span> <span class="n">moveLine</span><span class="p">(</span><span class="nl">gr:</span> <span class="n">UIPanGestureRecognizer</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">self</span><span class="p">.</span><span class="n">selectedLine</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">gr</span><span class="p">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">UIGestureRecognizerState</span><span class="p">.</span><span class="n">Changed</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">let</span> <span class="n">translation</span> <span class="o">=</span> <span class="n">gr</span><span class="p">.</span><span class="n">translationInView</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">var</span> <span class="nl">begin:</span> <span class="n">CGPoint</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">selectedLine</span><span class="o">!</span><span class="p">.</span><span class="n">begin</span>
+</span><span class='line'>            <span class="n">var</span> <span class="nl">end:</span> <span class="n">CGPoint</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">selectedLine</span><span class="o">!</span><span class="p">.</span><span class="n">end</span>
+</span><span class='line'>            <span class="n">begin</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">translation</span><span class="p">.</span><span class="n">x</span>
+</span><span class='line'>            <span class="n">begin</span><span class="p">.</span><span class="n">y</span> <span class="o">+=</span> <span class="n">translation</span><span class="p">.</span><span class="n">y</span>
+</span><span class='line'>            <span class="n">end</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">translation</span><span class="p">.</span><span class="n">x</span>
+</span><span class='line'>            <span class="n">end</span><span class="p">.</span><span class="n">y</span> <span class="o">+=</span> <span class="n">translation</span><span class="p">.</span><span class="n">y</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">selectedLine</span><span class="o">!</span><span class="p">.</span><span class="n">begin</span> <span class="o">=</span> <span class="n">begin</span>
+</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">selectedLine</span><span class="o">!</span><span class="p">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">end</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">setNeedsDisplay</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">gr</span><span class="p">.</span><span class="n">setTranslation</span><span class="p">(</span><span class="n">CGPointZero</span><span class="p">,</span> <span class="nl">inView:</span> <span class="n">self</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -1502,142 +1659,6 @@
 </span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
 </span><span class='line'>
 </span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">dismissViewControllerAnimated</span><span class="p">(</span><span class="n">true</span><span class="p">,</span> <span class="nl">completion:</span> <span class="nb">nil</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<header>
-		<h2 class="title">
-			
-			<a href="/blog/2014/06/27/chapter-10-uinavigationcontroller-part2/">
-			
-				Chapter 10 UINavigationController Part2</a>
-		</h2>
-		<div class="meta date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-27T17:44:35+09:00" pubdate data-updated="true">Jun 27<span>th</span>, 2014</time></div>
-	</header>
-	<div class="entry-content">
-		<h2>UINavigationBar</h2>
-
-<p>SwiftBNRItemViewController.swift</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRItemViewController:</span> <span class="n">UITableViewController</span><span class="p">,</span> <span class="n">UITableViewDataSource</span><span class="p">,</span> <span class="n">UITableViewDelegate</span>  <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// http://forums.bignerdranch.com/viewtopic.php?f=489&amp;t=8939</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// All instances of TableViewController should use UITableViewStyle.Plain</span>
-</span><span class='line'>    <span class="c1">// and this initializer</span>
-</span><span class='line'>    <span class="n">convenience</span> <span class="n">init</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">style:</span> <span class="n">UITableViewStyle</span><span class="p">.</span><span class="n">Plain</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">let</span> <span class="n">navItem</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">navigationItem</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">navItem</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">&quot;Homepwner&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">let</span> <span class="n">bbi</span> <span class="o">=</span> <span class="n">UIBarButtonItem</span><span class="p">(</span><span class="nl">barButtonSystemItem:</span> <span class="n">UIBarButtonSystemItem</span><span class="p">.</span><span class="n">Add</span><span class="p">,</span> <span class="nl">target:</span> <span class="n">self</span><span class="p">,</span> <span class="nl">action:</span> <span class="s">&quot;addNewItem:&quot;</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">navItem</span><span class="p">.</span><span class="n">rightBarButtonItem</span> <span class="o">=</span> <span class="n">bbi</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">navItem</span><span class="p">.</span><span class="n">leftBarButtonItem</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">editButtonItem</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="cm">/*</span>
-</span><span class='line'><span class="cm">    // should be using this, but use of UITableViewController.init(style:) has a</span>
-</span><span class='line'><span class="cm">    // bug where it accidentally calls &quot;unimplemented initializer &#39;init(nibName:bundle:)&quot;</span>
-</span><span class='line'><span class="cm">    init() {</span>
-</span><span class='line'><span class="cm">        super.init(style: UITableViewStyle.Plain)</span>
-</span><span class='line'><span class="cm">    }</span>
-</span><span class='line'><span class="cm">    */</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>SwiftBNRDetailViewController.swift</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">class</span> <span class="nl">SwiftBNRDetailViewController:</span> <span class="n">UIViewController</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">--</span> <span class="n">snip</span> <span class="o">--</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">viewWillAppear</span><span class="p">(</span><span class="nl">animated:</span> <span class="n">Bool</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">super</span><span class="p">.</span><span class="n">viewWillAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">navigationItem</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">item</span><span class="p">.</span><span class="n">itemName</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">nameField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">item</span><span class="p">.</span><span class="n">itemName</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">serialNumberField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">item</span><span class="p">.</span><span class="n">serialNumber</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">valueField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&quot;\(item.valueInDollars)&quot;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">let</span> <span class="n">dateFormatter</span> <span class="o">=</span> <span class="n">NSDateFormatter</span><span class="p">()</span>
-</span><span class='line'>        <span class="n">dateFormatter</span><span class="p">.</span><span class="n">dateStyle</span> <span class="o">=</span> <span class="p">.</span><span class="n">MediumStyle</span>
-</span><span class='line'>        <span class="n">dateFormatter</span><span class="p">.</span><span class="n">timeStyle</span> <span class="o">=</span> <span class="p">.</span><span class="n">NoStyle</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">dateLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&quot;\(dateFormatter.stringFromDate(item.createDate))&quot;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 

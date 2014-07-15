@@ -175,20 +175,26 @@
         <lastmod>2014-07-15T13:38:05+09:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://takaakik.github.io/blog/2014/07/15/chapter-13-uigesturerecognizer-and-uimenucontroller-part5/
+        </loc>
+        <lastmod>2014-07-15T16:26:28+09:00</lastmod>
+    </url>
+    <url>
         <loc>http://takaakik.github.io/about/</loc>
         <lastmod>2014-06-13T17:17:57+09:00</lastmod>
     </url>
     <url>
         <loc>http://takaakik.github.io/archives/</loc>
-        <lastmod>2014-07-15T13:38:05+09:00</lastmod>
+        <lastmod>2014-07-15T16:26:28+09:00</lastmod>
     </url>
     <url>
         <loc>http://takaakik.github.io/blog/archives/</loc>
-        <lastmod>2014-07-15T13:38:05+09:00</lastmod>
+        <lastmod>2014-07-15T16:26:28+09:00</lastmod>
     </url>
     <url>
         <loc>http://takaakik.github.io/blog/</loc>
-        <lastmod>2014-07-15T13:38:05+09:00</lastmod>
+        <lastmod>2014-07-15T16:26:28+09:00</lastmod>
     </url>
     <url>
         <loc>http://takaakik.github.io/contact/</loc>
@@ -196,7 +202,7 @@
     </url>
     <url>
         <loc>http://takaakik.github.io/</loc>
-        <lastmod>2014-07-15T13:38:05+09:00</lastmod>
+        <lastmod>2014-07-15T16:26:28+09:00</lastmod>
     </url>
     <url>
         <loc>http://takaakik.github.io/robots.txt</loc>
